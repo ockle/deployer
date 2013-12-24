@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Deployer - {% block title %}{% endblock %}</title>
+
+		<base href="http://php55/deployer/public/"><!-- @TODO: remove this -->
+
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+		<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Open+Sans:300italic,400,300,700" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" type="text/css" href="assets/semantic/css/semantic.min.css">
+		<link rel="stylesheet" type="text/css" href="assets/deployer/css/main.css">
+	</head>
+	<body>
+		<div class="ui menu fixed inverted">
+			<div class="item title">
+				<i class="blue download disk icon"></i> Deployer
+			</div>
+			<a href="{{ path('home') }}" class="item {% if app.request.get('_route')  == 'home' %}active{% endif %}">
+				<i class="home icon"></i> Home
+			</a>
+			<a href="{{ path('projects') }}" class="item {% if app.request.get('_route')  == 'projects' %}active{% endif %}">
+				<i class="open folder icon"></i> Projects
+			</a>
+			<a href="{{ path('deployments') }}" class="item {% if app.request.get('_route')  == 'deployments' %}active{% endif %}">
+				<i class="list layout icon"></i> Deployments
+			</a>
+			<a href="{{ path('users') }}" class="item {% if app.request.get('_route')  == 'users' %}active{% endif %}">
+				<i class="users icon"></i> Users
+			</a>
+			<a href="{{ path('settings') }}" class="item {% if app.request.get('_route')  == 'settings' %}active{% endif %}">
+				<i class="setting icon"></i> Settings
+			</a>
+
+			<div class="right item">
+				Welcome back, <a href="{{ path('account') }}">User</a>
+			</div>
+		</div>
+
+		<div class="container">
+			{% block content %}{% endblock %}
+		</div>
+	</body>
+</html>

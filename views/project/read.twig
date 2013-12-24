@@ -1,0 +1,15 @@
+{% extends "layout.twig" %}
+
+{% block title %}Projects{% endblock %}
+
+{% block content %}
+	<h2>{{ project.name }}</h2>
+
+	<div class="ui blue segment">
+		<h3>Production</h3>
+	</div>
+
+	<div class="ui green segment">
+		<h3>Staging</h3>
+	</div>
+{% endblock %}

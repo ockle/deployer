@@ -1,0 +1,32 @@
+{% extends "layout.twig" %}
+
+{% block title %}Projects{% endblock %}
+
+{% block content %}
+	<h2>Projects</h2>
+
+	<table class="ui three column table segment">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Depoyment Destination</th>
+				<th>Host</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			{% for project in projects %}
+			<tr>
+				<td><a href="{{ path('project.read', {project: project.id}) }}">{{ project.name }}</a></td>
+				<td>/var/www/site.com/</td>
+				<td>Bitbucket</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<a href="{{ path('project.add') }}" class="ui primary labeled icon small button">
+		<i class="plus icon"></i>
+		Add Project
+	</a>
+{% endblock %}

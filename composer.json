@@ -1,0 +1,16 @@
+{
+	"require": {
+		"silex/silex": "~1.1",
+		"twig/twig": ">=1.8,<2.0-dev",
+		"symfony/twig-bridge": "~2.3",
+		"illuminate/database": "4.1.*",
+		"cartalyst/sentry": "2.0.*"
+	},
+	"autoload": {
+		"classmap": [
+			"providers",
+			"models"
+		]
+	},
+	"minimum-stability": "stable"
+}

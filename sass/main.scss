@@ -1,0 +1,96 @@
+@import "../bower_components/normalize.scss/_normalize";
+
+$blue: #6ECFF5;
+$blue-hover: #1AB8F3;
+$blue-active: #0AA5DF;
+$dark-blue: #009FDA;
+$dark-blue-hover: #00BAFF;
+
+html {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 15px;
+	margin: 0;
+	padding: 0;
+	color: #555;
+}
+
+body {
+	margin: 0;
+}
+
+a {
+ 	color: $dark-blue;
+ 	text-decoration: none;
+}
+
+a:hover {
+	color: $dark-blue-hover;
+}
+
+.container {
+	padding: 4rem 2rem 0 2rem;
+}
+
+.menu {
+	.item {
+		height: 100%;
+		line-height: 2rem !important;
+		vertical-align: middle;
+		padding-top: 0.8rem !important;
+		padding-bottom: 0.8rem !important;
+
+		&:not(.title) {
+			&.active, &:hover {
+				.icon {
+					color: $blue;
+					opacity: 1;
+				}
+			}
+		}
+	}
+
+	.icon {
+		font-size: 1.3rem;
+		vertical-align: -0.1rem;
+	}
+
+	.title {
+		font-weight: bold;
+		font-size: 1.4rem !important;
+
+
+		.icon {
+			opacity: 1;
+			font-size: 2rem;
+			vertical-align: middle;
+		}
+	}
+
+	.right {
+		a {
+			text-decoration: none;
+			font-weight: bold;
+
+			&:hover {
+				text-decoration: underline;
+			}
+		}
+	}
+}
+
+.ui.primary.buttons .button,
+.ui.primary.button {
+  background-color: $blue;
+}
+
+.ui.primary.buttons .button:hover,
+.ui.primary.button:hover,
+.ui.primary.buttons .active.button,
+.ui.primary.button.active {
+  background-color: $blue-hover;
+}
+
+.ui.primary.buttons .button:active,
+.ui.primary.button:active {
+  background-color: $blue-active;
+}
