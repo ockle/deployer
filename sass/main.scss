@@ -1,37 +1,64 @@
-@import "../bower_components/normalize.scss/_normalize";
+@import "compass/css3";
+
+@import "../bower_components/foundation/scss/normalize";
+
+$body-font-family: "Open Sans", Arial, sans-serif;
+$topbar-title-font-size: 1.3rem;
+$topbar-link-font-size: 1rem;
+$topbar-media-query: "only screen and (min-width: 936px)";
+$topbar-breakpoint: 936px;
+$button-font-tny: 0.9rem;
+@import "../bower_components/foundation/scss/foundation";
+
+$fa-font-path: "../../font-awesome/fonts";
+@import "../bower_components/font-awesome/scss/font-awesome";
 
 $blue: #6ECFF5;
-$blue-hover: #1AB8F3;
+/* $blue-hover: #1AB8F3;
 $blue-active: #0AA5DF;
 $dark-blue: #009FDA;
-$dark-blue-hover: #00BAFF;
-
-html {
-	font-family: 'Open Sans', sans-serif;
-	font-size: 15px;
-	margin: 0;
-	padding: 0;
-	color: #555;
-}
-
-body {
-	margin: 0;
-}
-
-a {
- 	color: $dark-blue;
- 	text-decoration: none;
-}
-
-a:hover {
-	color: $dark-blue-hover;
-}
+$dark-blue-hover: #00BAFF; */
 
 .container {
-	padding: 4rem 2rem 0 2rem;
+	padding: 0.5rem 2rem 0 2rem;
 }
 
-.menu {
+.top-bar {
+	.name {
+		.fa {
+			color: $blue;
+			font-size: 2rem;
+			vertical-align: middle;
+			margin-right: 0.5rem;
+		}
+	}
+
+	.top-bar-section {
+		.fa {
+			font-size: 1.2rem;
+			vertical-align: -0.05rem;
+			margin-right: 0.3rem;
+			@include opacity(0.8);
+		}
+
+		a:hover {
+			.fa {
+				color: $blue;
+				@include opacity(1);
+			}
+		}
+	}
+}
+
+.button {
+	.fa {
+		margin-right: 0.5rem;
+		font-size: 1.1rem;
+		vertical-align: -0.05rem;
+	}
+}
+
+/* .menu {
 	.item {
 		height: 100%;
 		line-height: 2rem !important;
@@ -93,4 +120,4 @@ a:hover {
 .ui.primary.buttons .button:active,
 .ui.primary.button:active {
   background-color: $blue-active;
-}
+} */

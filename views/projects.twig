@@ -5,7 +5,7 @@
 {% block content %}
 	<h2>Projects</h2>
 
-	<table class="ui three column table segment">
+	<table class="column">
 		<thead>
 			<tr>
 				<th>Name</th>
@@ -25,8 +25,8 @@
 		</tbody>
 	</table>
 
-	<a href="{{ path('project.add') }}" class="ui primary labeled icon small button">
-		<i class="plus icon"></i>
+	<a href="{{ path('project.add') }}" class="tiny radius button">
+		<i class="fa fa-plus"></i>
 		Add Project
 	</a>
 {% endblock %}

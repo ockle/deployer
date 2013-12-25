@@ -6,39 +6,68 @@
 		<base href="http://php55/deployer/public/"><!-- @TODO: remove this -->
 
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 		<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Open+Sans:300italic,400,300,700" rel="stylesheet" type="text/css">
-		<link rel="stylesheet" type="text/css" href="assets/semantic/css/semantic.min.css">
 		<link rel="stylesheet" type="text/css" href="assets/deployer/css/main.css">
+
+		<script type="text/javascript" src="assets/modernizr/modernizr.js"></script>
 	</head>
 	<body>
-		<div class="ui menu fixed inverted">
-			<div class="item title">
-				<i class="blue download disk icon"></i> Deployer
-			</div>
-			<a href="{{ path('home') }}" class="item {% if app.request.get('_route')  == 'home' %}active{% endif %}">
-				<i class="home icon"></i> Home
-			</a>
-			<a href="{{ path('projects') }}" class="item {% if app.request.get('_route')  == 'projects' %}active{% endif %}">
-				<i class="open folder icon"></i> Projects
-			</a>
-			<a href="{{ path('deployments') }}" class="item {% if app.request.get('_route')  == 'deployments' %}active{% endif %}">
-				<i class="list layout icon"></i> Deployments
-			</a>
-			<a href="{{ path('users') }}" class="item {% if app.request.get('_route')  == 'users' %}active{% endif %}">
-				<i class="users icon"></i> Users
-			</a>
-			<a href="{{ path('settings') }}" class="item {% if app.request.get('_route')  == 'settings' %}active{% endif %}">
-				<i class="setting icon"></i> Settings
-			</a>
+		<div class="fixed">
+			<nav class="top-bar" data-topbar>
+				<ul class="title-area">
+					<li class="name">
+						<h1><a href=""><i class="fa fa-download"></i> Deployer</a></h1>
+					</li>
+					<li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+				</ul>
 
-			<div class="right item">
-				Welcome back, <a href="{{ path('account') }}">User</a>
-			</div>
+				<section class="top-bar-section">
+					<ul class="right">
+						<li>
+							<a href="{{ path('account') }}">Welcome back, User</a>
+						</li>
+					</ul>
+
+					<ul class="left">
+						<li>
+							<a href="{{ path('home') }}" class="item {% if app.request.get('_route')  == 'home' %}active{% endif %}">
+								<i class="fa fa-home"></i> Home
+							</a>
+						</li>
+						<li>
+							<a href="{{ path('projects') }}" class="item {% if app.request.get('_route')  == 'projects' %}active{% endif %}">
+								<i class="fa fa-folder-open"></i> Projects
+							</a>
+						</li>
+						<li>
+							<a href="{{ path('deployments') }}" class="item {% if app.request.get('_route')  == 'deployments' %}active{% endif %}">
+								<i class="fa fa-th-list"></i> Deployments
+							</a>
+						</li>
+						<li>
+							<a href="{{ path('users') }}" class="item {% if app.request.get('_route')  == 'users' %}active{% endif %}">
+								<i class="fa fa-users"></i> Users
+							</a>
+						</li>
+						<li>
+							<a href="{{ path('settings') }}" class="item {% if app.request.get('_route')  == 'settings' %}active{% endif %}">
+								<i class="fa fa-cog"></i> Settings
+							</a>
+						</li>
+				</section>
+			</nav>
 		</div>
 
 		<div class="container">
 			{% block content %}{% endblock %}
 		</div>
+
+		<script src="assets/jquery/jquery.min.js"></script>
+		<script src="assets/foundation/js/foundation.min.js"></script>
+		<script>
+			$(document).foundation();
+		</script>
 	</body>
 </html>
