@@ -5,33 +5,25 @@
 {% block content %}
 	<h2>Activity Feed</h2>
 
-	<div class="ui small feed segment">
-		<div class="event">
-			<div class="label">
-				<i class="circular settings icon"></i>
+	<ul class="feed no-bullet">
+		<li class="row">
+			<div class="small-2 medium-1 columns">
+				<i class="fa fa-cogs round"></i>
 			</div>
-			<div class="content">
-				<div class="date" title="01/01/2013 11:11:12">
-					1 hour ago
-				</div>
-				<div class="summary">
-					<a href="">User</a> automatically deployed <a href="">Example.com</a>
-				</div>
+			<div class="small-7 medium-9 columns">
+				<a href="">User</a> automatically deployed <a href="">Example.com</a>
 			</div>
-		</div>
+			<div class="small-3 medium-2 columns"><span class="has-tip" title="01/01/2013 11:11:12" data-tooltip>1 hour ago</span></div>
+		</li>
 
-		<div class="event">
-			<div class="label">
-				<i class="circular wrench icon"></i>
+		<li class="row">
+			<div class="small-2 medium-1 columns">
+				<i class="fa fa-wrench round"></i>
 			</div>
-			<div class="content">
-				<div class="date" title="01/01/2013 11:11:11">
-					2 hours ago
-				</div>
-				<div class="summary">
-					<a href="">User</a> manually deployed <a href="">Site.com</a>
-				</div>
+			<div class="small-7 medium-9 columns">
+				<a href="">User</a> manually deployed <a href="">Example.com</a>
 			</div>
-		</div>
-	</div>
+			<div class="small-3 medium-2 columns"><span class="has-tip" title="01/01/2013 11:11:12" data-tooltip>1 hour ago</span></div>
+		</li>
+	</ul>
 {% endblock %}

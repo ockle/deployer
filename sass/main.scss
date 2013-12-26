@@ -5,15 +5,18 @@
 $body-font-family: "Open Sans", Arial, sans-serif;
 $topbar-title-font-size: 1.3rem;
 $topbar-link-font-size: 1rem;
-$topbar-media-query: "only screen and (min-width: 936px)";
-$topbar-breakpoint: 936px;
+$topbar-media-query: "only screen and (min-width: 881px)";
+$topbar-breakpoint: 881px;
 $button-font-tny: 0.9rem;
+$row-width: 100%;
 @import "../bower_components/foundation/scss/foundation";
 
 $fa-font-path: "../../font-awesome/fonts";
 @import "../bower_components/font-awesome/scss/font-awesome";
 
 $blue: #6ECFF5;
+$grey: #DDDDDD;
+$dark-grey: #6F6F6F;
 /* $blue-hover: #1AB8F3;
 $blue-active: #0AA5DF;
 $dark-blue: #009FDA;
@@ -52,10 +55,55 @@ $dark-blue-hover: #00BAFF; */
 
 .button {
 	.fa {
+		margin-right: 0.7rem;
+		font-size: 1.5rem;
+		vertical-align: -0.1rem;
+	}
+} 
+
+.button.tiny {
+	.fa {
 		margin-right: 0.5rem;
+		margin-left: 0rem;
 		font-size: 1.1rem;
 		vertical-align: -0.05rem;
 	}
+}
+
+.muted {
+	color: $dark-grey;
+}
+
+.feed {
+
+	li {
+		padding: 0.6rem 0;
+		display: table;
+		border-bottom: 1px solid $grey;
+		max-width: 62.5rem;
+
+		&:last-of-type {
+			border-bottom-width: 0;
+		}
+
+		div {
+			height: 3rem;
+			float: none !important;
+			display: table-cell;
+			vertical-align: middle;
+		}
+	}
+
+	.content {
+		width: 100%;
+	}
+}
+
+.fa.round {
+	border: 3px solid $grey;
+	background-color: #FFF;
+	padding: 0.6em;
+	@include border-radius(50%);
 }
 
 /* .menu {

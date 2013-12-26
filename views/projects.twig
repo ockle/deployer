@@ -7,19 +7,19 @@
 
 	<table class="column">
 		<thead>
-			<tr>
-				<th>Name</th>
-				<th>Depoyment Destination</th>
-				<th>Host</th>
+			<tr class="row">
+				<th class="small-4 columns">Name</th>
+				<th class="small-4 columns">Depoyment Destination</th>
+				<th class="small-4 columns">Host</th>
 			</tr>
 		</thead>
 
 		<tbody>
 			{% for project in projects %}
-			<tr>
-				<td><a href="{{ path('project.read', {project: project.id}) }}">{{ project.name }}</a></td>
-				<td>/var/www/site.com/</td>
-				<td>Bitbucket</td>
+			<tr class="row">
+				<td class="small-4 columns"><a href="{{ path('project.read', {project: project.id}) }}">{{ project.name }}</a></td>
+				<td class="small-4 columns">/var/www/site.com/</td>
+				<td class="small-4 columns">Bitbucket</td>
 			</tr>
 			{% endfor %}
 		</tbody>

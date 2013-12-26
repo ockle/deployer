@@ -99,15 +99,15 @@ $app->get('/project/add', function() use ($app) {
 ->bind('project.add');
 
 /**
- * Display deployments
+ * Display hosts
  */
-$app->get('/deployments', function() use ($app) {
+$app->get('/hosts', function() use ($app) {
     $data = array(
     );
 
-    return $app['twig']->render('deployments.twig', $data);
+    return $app['twig']->render('hosts.twig', $data);
 })
-->bind('deployments');
+->bind('hosts');
 
 /**
  * Display users
