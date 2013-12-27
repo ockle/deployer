@@ -27,7 +27,7 @@ Projects
 		</tbody>
 	</table>
 
-	<a href="" class="tiny radius button">
+	<a href="{{ $app['url_generator']->generate('project.add') }}" class="tiny radius button">
 		<i class="fa fa-plus"></i>
 		Add Project
 	</a>

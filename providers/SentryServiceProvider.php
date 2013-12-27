@@ -21,21 +21,32 @@ class SentryServiceProvider implements ServiceProviderInterface
      **/
     public function register(Application $app)
     {
-        $app['sentry'] = $app->share(function($app) {
-            $hasher = new NativeHasher;
-            $userProvider = new UserProvider($hasher, isset($app['sentry.providers']['user']) ? $app['sentry.providers']['user'] : null);
-            $groupProvider = new GroupProvider(isset($app['sentry.providers']['group']) ? $app['sentry.providers']['group'] : null);
-            $throttleProvider = new ThrottleProvider($userProvider, isset($app['sentry.providers']['throttle']) ? $app['sentry.providers']['throttle'] : null);
-            $session = new NativeSession;
-            $cookie = new NativeCookie(isset($app['sentry.cookie']) ? $app['sentry.cookie'] : array());
+        $app['sentry.hasher'] = $app->share(function() {
+            return new NativeHasher;
+        });
 
-            $sentry = new Sentry(
-                $userProvider,
-                $groupProvider,
-                $throttleProvider,
-                $session,
-                $cookie
-            );
+        $app['sentry.user_provider'] = $app->share(function() use ($app) {
+            return new UserProvider($app['sentry.hasher'], isset($app['sentry.providers']['user']) ? $app['sentry.providers']['user'] : null);
+        });
+
+        $app['sentry.group_provider'] = $app->share(function() use ($app) {
+            return new GroupProvider(isset($app['sentry.providers']['group']) ? $app['sentry.providers']['group'] : null);
+        });
+
+        $app['sentry.throttle_provider'] = $app->share(function() use ($app) {
+            return new ThrottleProvider($app['sentry.user_provider'], isset($app['sentry.providers']['throttle']) ? $app['sentry.providers']['throttle'] : null);
+        });
+
+        $app['sentry.session'] = $app->share(function() {
+            return new NativeSession(isset($app['sentry.session_key']) ? $app['sentry.session_key'] : null);
+        });
+
+        $app['sentry.cookie'] = $app->share(function() use ($app) {
+            return new NativeCookie(isset($app['sentry.cookie_settings']) ? $app['sentry.cookie_settings'] : array(), isset($app['sentry.cookie_key']) ? $app['sentry.cookie_key'] : null);
+        });
+
+        $app['sentry'] = $app->share(function($app) {
+            $sentry = new Sentry($app['sentry.user_provider'], $app['sentry.group_provider'], $app['sentry.throttle_provider'], $app['sentry.session'], $app['sentry.cookie']);
 
             return $sentry;
         });

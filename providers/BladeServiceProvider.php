@@ -21,17 +21,36 @@ class BladeServiceProvider implements ServiceProviderInterface
      **/
     public function register(Application $app)
     {
-        $app['blade'] = $app->share(function($app) {
-            $filesystem = new Filesystem;
-            $compiler = new BladeCompiler($filesystem, $app['blade.settings']['cache']);
-            $resolver = new EngineResolver;
-            $resolver->register('blade', function() use ($compiler, $filesystem) {
-                return new CompilerEngine($compiler, $filesystem);
-            });
-            $finder = new FileViewFinder($filesystem, $app['blade.settings']['views']);
-            $events = new Dispatcher;
+        $app['blade.filesystem'] = $app->share(function() {
+            return new Filesystem;
+        });
 
-            return new Environment($resolver, $finder, $events);
+        $app['blade.compiler'] = $app->share(function() use ($app) {
+            return new BladeCompiler($app['blade.filesystem'], $app['blade.settings']['cache']);
+        });
+
+        $app['blade.compiler_engine'] = $app->share(function() use ($app) {
+            return new CompilerEngine($app['blade.compiler'], $app['blade.filesystem']);
+        });
+
+        $app['blade.resolver'] = $app->share(function() {
+            return new EngineResolver;
+        });
+
+        $app['blade.resolver']->register('blade', function() use ($app) {
+            return $app['blade.compiler_engine'];
+        });
+
+        $app['blade.finder'] = $app->share(function() use ($app) {
+            return new FileViewFinder($app['blade.filesystem'], $app['blade.settings']['views']);
+        });
+
+        $app['blade.dispatcher'] = $app->share(function() {
+            return new Dispatcher;
+        });
+
+        $app['blade'] = $app->share(function($app) {
+            return new Environment($app['blade.resolver'], $app['blade.finder'], $app['blade.dispatcher']);
         });
     }
 

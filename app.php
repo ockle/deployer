@@ -42,10 +42,6 @@ $app['blade']->composer('*', function($view) use ($app) {
     $view->app = $app;
 });
 
-$app['capsule']->setAsGlobal();
-
-$app['capsule']->bootEloquent();
-
 $projectProvider = function($id) {
     return Project::find($id);
 };

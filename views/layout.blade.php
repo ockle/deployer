@@ -31,27 +31,27 @@
 
 					<ul class="left">
 						<li>
-							<a href="{{ $app['url_generator']->generate('home') }}" class="item {% if app.request.get('_route')  == 'home' %}active{% endif %}">
+							<a href="{{ $app['url_generator']->generate('home') }}" class="item">
 								<i class="fa fa-home"></i> Home
 							</a>
 						</li>
 						<li>
-							<a href="{{ $app['url_generator']->generate('projects') }}" class="item {% if app.request.get('_route')  == 'projects' %}active{% endif %}">
+							<a href="{{ $app['url_generator']->generate('projects') }}" class="item">
 								<i class="fa fa-folder-open"></i> Projects
 							</a>
 						</li>
 						<li>
-							<a href="{{ $app['url_generator']->generate('hosts') }}" class="item {% if app.request.get('_route')  == 'hosts' %}active{% endif %}">
+							<a href="{{ $app['url_generator']->generate('hosts') }}" class="item">
 								<i class="fa fa-cloud"></i> Hosts
 							</a>
 						</li>
 						<li>
-							<a href="{{ $app['url_generator']->generate('users') }}" class="item {% if app.request.get('_route')  == 'users' %}active{% endif %}">
+							<a href="{{ $app['url_generator']->generate('users') }}" class="item">
 								<i class="fa fa-users"></i> Users
 							</a>
 						</li>
 						<li>
-							<a href="{{ $app['url_generator']->generate('settings') }}" class="item {% if app.request.get('_route')  == 'settings' %}active{% endif %}">
+							<a href="{{ $app['url_generator']->generate('settings') }}" class="item">
 								<i class="fa fa-cog"></i> Settings
 							</a>
 						</li>
