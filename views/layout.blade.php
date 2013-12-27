@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 	<head>
-		<title>Deployer - {% block title %}{% endblock %}</title>
+		<title>Deployer - @yield('title')</title>
 
 		<base href="http://php55/deployer/public/"><!-- @TODO: remove this -->
 
@@ -25,33 +25,33 @@
 				<section class="top-bar-section">
 					<ul class="right">
 						<li>
-							<a href="{{ path('account') }}">Welcome back, User</a>
+							<a href="{{ $app['url_generator']->generate('account') }}">Welcome back, User</a>
 						</li>
 					</ul>
 
 					<ul class="left">
 						<li>
-							<a href="{{ path('home') }}" class="item {% if app.request.get('_route')  == 'home' %}active{% endif %}">
+							<a href="{{ $app['url_generator']->generate('home') }}" class="item {% if app.request.get('_route')  == 'home' %}active{% endif %}">
 								<i class="fa fa-home"></i> Home
 							</a>
 						</li>
 						<li>
-							<a href="{{ path('projects') }}" class="item {% if app.request.get('_route')  == 'projects' %}active{% endif %}">
+							<a href="{{ $app['url_generator']->generate('projects') }}" class="item {% if app.request.get('_route')  == 'projects' %}active{% endif %}">
 								<i class="fa fa-folder-open"></i> Projects
 							</a>
 						</li>
 						<li>
-							<a href="{{ path('hosts') }}" class="item {% if app.request.get('_route')  == 'hosts' %}active{% endif %}">
+							<a href="{{ $app['url_generator']->generate('hosts') }}" class="item {% if app.request.get('_route')  == 'hosts' %}active{% endif %}">
 								<i class="fa fa-cloud"></i> Hosts
 							</a>
 						</li>
 						<li>
-							<a href="{{ path('users') }}" class="item {% if app.request.get('_route')  == 'users' %}active{% endif %}">
+							<a href="{{ $app['url_generator']->generate('users') }}" class="item {% if app.request.get('_route')  == 'users' %}active{% endif %}">
 								<i class="fa fa-users"></i> Users
 							</a>
 						</li>
 						<li>
-							<a href="{{ path('settings') }}" class="item {% if app.request.get('_route')  == 'settings' %}active{% endif %}">
+							<a href="{{ $app['url_generator']->generate('settings') }}" class="item {% if app.request.get('_route')  == 'settings' %}active{% endif %}">
 								<i class="fa fa-cog"></i> Settings
 							</a>
 						</li>
@@ -60,7 +60,7 @@
 		</div>
 
 		<div class="container">
-			{% block content %}{% endblock %}
+			@yield('content')
 		</div>
 
 		<script src="assets/jquery/jquery.min.js"></script>

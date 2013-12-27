@@ -1,8 +1,10 @@
-{% extends "layout.twig" %}
+@extends('layout')
 
-{% block title %}Projects{% endblock %}
+@section('title')
+Add a project
+@stop
 
-{% block content %}
+@section('content')
 	<h2>Add a project</h2>
 
 	<form>
@@ -19,4 +21,4 @@
 
 		<a type="submit" class="button secondary tiny radius"><i class="fa fa-times"></i>Cancel</a>
 	</form>
-{% endblock %}
+@stop

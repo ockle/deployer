@@ -1,8 +1,10 @@
-{% extends "layout.twig" %}
+@extends('layout')
 
-{% block title %}Home{% endblock %}
+@section('title')
+Home
+@stop
 
-{% block content %}
+@section('content')
 	<h2>Activity Feed</h2>
 
 	<ul class="feed no-bullet">
@@ -26,4 +28,4 @@
 			<div class="small-3 medium-2 columns"><span class="has-tip" title="01/01/2013 11:11:12" data-tooltip>1 hour ago</span></div>
 		</li>
 	</ul>
-{% endblock %}
+@stop

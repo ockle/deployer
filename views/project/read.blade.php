@@ -1,9 +1,11 @@
-{% extends "layout.twig" %}
+@extends('layout')
 
-{% block title %}Projects{% endblock %}
+@section('title')
+{{ $project->name }}
+@stop
 
-{% block content %}
-	<h2>{{ project.name }}</h2>
+@section('content')
+	<h2>{{ $project->name }}</h2>
 
 	<ul class="small-block-grid-1 medium-block-grid-2">
 		<li>
@@ -22,8 +24,8 @@
 		</li>
 		<li>
 			<div class="panel radius row">
-				<button class="success radius button small-12 xlarge-6 columns"><i class="fa fa-wrench"></i> Trigger manual deployment</button>
-				<button class="disabled radius button small-12 xlarge-6 columns" disabled><i class="fa fa-cogs"></i> Automatic deployment enabled</button>
+				<button class="success radius button small-12 xlarge-6 columns"><i class="fa fa-wrench"></i> Manually deploy</button>
+				<button class="disabled radius button small-12 xlarge-6 columns" disabled><i class="fa fa-cogs"></i> Automatically deploying</button>
 				<a class="secondary radius button small-12 xlarge-5 columns"><i class="fa fa-cog"></i> Settings</a>
 			</div>
 		</li>
@@ -49,4 +51,4 @@
 			</tr>
 		</tbody>
 	</table>
-{% endblock %}
+@stop

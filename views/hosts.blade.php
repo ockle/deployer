@@ -1,9 +1,11 @@
-{% extends "layout.twig" %}
+@extends('layout')
 
-{% block title %}Projects{% endblock %}
+@section('title')
+Hosts
+@stop
 
-{% block content %}
-	<h2>Projects</h2>
+@section('content')
+	<h2>Hosts</h2>
 
 	<table class="ui table segment">
 		<thead>
@@ -22,4 +24,4 @@
 			</tr>
 		</tbody>
 	</table>
-{% endblock %}
+@stop

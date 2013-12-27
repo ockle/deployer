@@ -12,10 +12,6 @@ $app = new Silex\Application;
 
 $app['debug'] = true; // @TODO: remove this
 
-$app->register(new Silex\Provider\TwigServiceProvider, array(
-    'twig.path' => __DIR__ . '/views',
-));
-
 $app->register(new Silex\Provider\UrlGeneratorServiceProvider);
 
 $app->register(new Deployer\ServiceProviders\CapsuleServiceProvider, array(
@@ -32,13 +28,23 @@ $app->register(new Deployer\ServiceProviders\SentryServiceProvider, array(
     )
 ));
 
+$app->register(new Deployer\ServiceProviders\BladeServiceProvider, array(
+    'blade.settings' => array(
+        'cache' => '/tmp',
+        'views' => array(
+            __DIR__ . '/views'
+        )
+    )
+));
+
+// Inject the $app into every blade view
+$app['blade']->composer('*', function($view) use ($app) {
+    $view->app = $app;
+});
+
 $app['capsule']->setAsGlobal();
 
 $app['capsule']->bootEloquent();
-
-$app->before(function (Symfony\Component\HttpFoundation\Request $request) use ($app) {
-    $app['twig']->addGlobal('current_route', $request->getRequestUri());
-});
 
 $projectProvider = function($id) {
     return Project::find($id);
@@ -51,7 +57,7 @@ $app->get('/', function() use ($app) {
     $data = array(
     );
 
-    return $app['twig']->render('index.twig', $data);
+    return $app['blade']->make('index', $data);
 })
 ->bind('home');
 
@@ -65,7 +71,7 @@ $app->get('/projects', function() use ($app) {
         'projects' => $projects
     );
 
-    return $app['twig']->render('projects.twig', $data);
+    return $app['blade']->make('projects', $data);
 })
 ->bind('projects');
 
@@ -81,7 +87,7 @@ $app->get('/project/{project}', function($project) use ($app) {
         'project' => $project
     );
 
-    return $app['twig']->render('project/read.twig', $data);
+    return $app['blade']->make('project.read', $data);
 })
 ->assert('project', '\d+')
 ->convert('project', $projectProvider)
@@ -94,7 +100,7 @@ $app->get('/project/add', function() use ($app) {
     $data = array(
     );
 
-    return $app['twig']->render('project/add.twig', $data);
+    return $app['blade']->make('project.add', $data);
 })
 ->bind('project.add');
 
@@ -105,7 +111,7 @@ $app->get('/hosts', function() use ($app) {
     $data = array(
     );
 
-    return $app['twig']->render('hosts.twig', $data);
+    return $app['blade']->make('hosts', $data);
 })
 ->bind('hosts');
 
@@ -113,12 +119,24 @@ $app->get('/hosts', function() use ($app) {
  * Display users
  */
 $app->get('/users', function() use ($app) {
+    $data = array();
+
+    $data['users'] = $app['sentry']->findAllUsers();
+
+    return $app['blade']->make('users', $data);
+})
+->bind('users');
+
+/**
+ * Add a user
+ */
+$app->get('/user/add', function() use ($app) {
     $data = array(
     );
 
-    return $app['twig']->render('users.twig', $data);
+    return $app['blade']->make('user.add', $data);
 })
-->bind('users');
+->bind('user.add');
 
 /**
  * Display account
@@ -127,7 +145,7 @@ $app->get('/account', function() use ($app) {
     $data = array(
     );
 
-    return $app['twig']->render('account.twig', $data);
+    return $app['blade']->make('account', $data);
 })
 ->bind('account');
 
@@ -138,7 +156,7 @@ $app->get('/settings', function() use ($app) {
     $data = array(
     );
 
-    return $app['twig']->render('settings.twig', $data);
+    return $app['blade']->make('settings', $data);
 })
 ->bind('settings');
 

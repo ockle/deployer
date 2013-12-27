@@ -1,8 +1,10 @@
-{% extends "layout.twig" %}
+@extends('layout')
 
-{% block title %}Projects{% endblock %}
+@section('title')
+Projects
+@stop
 
-{% block content %}
+@section('content')
 	<h2>Projects</h2>
 
 	<table class="column">
@@ -15,18 +17,18 @@
 		</thead>
 
 		<tbody>
-			{% for project in projects %}
+			@foreach ($projects as $project)
 			<tr class="row">
-				<td class="small-4 columns"><a href="{{ path('project.read', {project: project.id}) }}">{{ project.name }}</a></td>
+				<td class="small-4 columns"><a href="{{ $app['url_generator']->generate('project.read', array('project' => $project->id)) }}">{{ $project->name }}</a></td>
 				<td class="small-4 columns">/var/www/site.com/</td>
 				<td class="small-4 columns">Bitbucket</td>
 			</tr>
-			{% endfor %}
+			@endforeach
 		</tbody>
 	</table>
 
-	<a href="{{ path('project.add') }}" class="tiny radius button">
+	<a href="" class="tiny radius button">
 		<i class="fa fa-plus"></i>
 		Add Project
 	</a>
-{% endblock %}
+@stop
