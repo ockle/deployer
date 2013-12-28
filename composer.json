@@ -7,9 +7,9 @@
 		"cartalyst/sentry": "2.0.*"
 	},
 	"autoload": {
-		"classmap": [
-			"classes"
-		]
+		"psr-0": {
+			"Deployer": "classes/"
+		}
 	},
 	"minimum-stability": "stable"
 }

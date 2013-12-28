@@ -1,6 +1,6 @@
 <?php
 
-namespace Deployer\Models;
+namespace Deployer\Model;
 
 class User extends \Cartalyst\Sentry\Users\Eloquent\User
 {

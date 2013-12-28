@@ -1,6 +1,6 @@
 <?php
 
-namespace Deployer\Models;
+namespace Deployer\Model;
 
 class Host extends \Illuminate\Database\Eloquent\Model
 {

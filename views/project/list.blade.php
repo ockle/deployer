@@ -27,8 +27,5 @@ Projects
 	</tbody>
 </table>
 
-<a href="{{ $app->path('project.add') }}" class="tiny radius button">
-	<i class="fa fa-plus"></i>
-	Add Project
-</a>
+<a href="{{ $app->path('project.add') }}" class="tiny radius button"><i class="fa fa-plus"></i> Add Project</a>
 @stop

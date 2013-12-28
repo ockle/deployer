@@ -3,10 +3,10 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-use Deployer\Models\Deployment;
-use Deployer\Models\Host;
-use Deployer\Models\Project;
-use Deployer\Models\User;
+use Deployer\Model\Deployment;
+use Deployer\Model\Host;
+use Deployer\Model\Project;
+use Deployer\Model\User;
 
 $app = new Deployer\Application;
 
@@ -32,7 +32,7 @@ $app->register(new Deployer\ServiceProviders\ValidatorServiceProvider);
 
 $app->register(new Deployer\ServiceProviders\SentryServiceProvider, array(
     'sentry.providers' => array(
-        'user' => 'Deployer\Models\User'
+        'user' => 'Deployer\Model\User'
     )
 ));
 
@@ -55,13 +55,13 @@ $projectProvider = function($id) {
 };
 
 /**
- * Display index
+ * Display home
  */
 $app->get('/', function() use ($app) {
     $data = array(
     );
 
-    return $app['blade']->make('index', $data);
+    return $app['blade']->make('home', $data);
 })
 ->bind('home');
 
@@ -75,9 +75,9 @@ $app->get('/projects', function() use ($app) {
         'projects' => $projects
     );
 
-    return $app['blade']->make('projects', $data);
+    return $app['blade']->make('project.list', $data);
 })
-->bind('projects');
+->bind('project.list');
 
 /**
  * View a project
@@ -115,9 +115,9 @@ $app->get('/hosts', function() use ($app) {
     $data = array(
     );
 
-    return $app['blade']->make('hosts', $data);
+    return $app['blade']->make('host.list', $data);
 })
-->bind('hosts');
+->bind('host.list');
 
 /**
  * Display users
@@ -127,9 +127,9 @@ $app->get('/users', function() use ($app) {
 
     $data['users'] = $app['sentry']->findAllUsers();
 
-    return $app['blade']->make('users', $data);
+    return $app['blade']->make('user.list', $data);
 })
-->bind('users');
+->bind('user.list');
 
 /**
  * Add a user
@@ -167,17 +167,6 @@ $app->get('/account', function() use ($app) {
     return $app['blade']->make('account', $data);
 })
 ->bind('account');
-
-/**
- * Settings
- */
-$app->get('/settings', function() use ($app) {
-    $data = array(
-    );
-
-    return $app['blade']->make('settings', $data);
-})
-->bind('settings');
 
 /**
  * Handle the POST hook

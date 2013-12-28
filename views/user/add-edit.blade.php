@@ -51,6 +51,6 @@
 
 	<button type="submit" class="button tiny radius"><i class="fa fa-check"></i>Submit</button>
 
-	<a href="{{ $app->path('users') }}" class="button secondary tiny radius"><i class="fa fa-times"></i>Cancel</a>
+	<a href="{{ $app->path('user.list') }}" class="button secondary tiny radius"><i class="fa fa-times"></i>Cancel</a>
 </form>
 @stop

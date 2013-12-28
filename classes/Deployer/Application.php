@@ -8,8 +8,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class Application extends \Silex\Application
 {
-    // Manually including the UrlGeneratorTrait because I want/need the 
-    // application to run under PHP 5.3, but still want the convenience
+    // Manually including the UrlGeneratorTrait because I require the application
+    // to run under PHP 5.3, but still want the convenience of the short methods
 
     /**
      * Generates a path from the given parameters.

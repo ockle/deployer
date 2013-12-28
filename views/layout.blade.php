@@ -36,23 +36,18 @@
 							</a>
 						</li>
 						<li>
-							<a href="{{ $app->path('projects') }}" class="item">
+							<a href="{{ $app->path('project.list') }}" class="item">
 								<i class="fa fa-folder-open"></i> Projects
 							</a>
 						</li>
 						<li>
-							<a href="{{ $app->path('hosts') }}" class="item">
+							<a href="{{ $app->path('host.list') }}" class="item">
 								<i class="fa fa-cloud"></i> Hosts
 							</a>
 						</li>
 						<li>
-							<a href="{{ $app->path('users') }}" class="item">
+							<a href="{{ $app->path('user.list') }}" class="item">
 								<i class="fa fa-users"></i> Users
-							</a>
-						</li>
-						<li>
-							<a href="{{ $app->path('settings') }}" class="item">
-								<i class="fa fa-cog"></i> Settings
 							</a>
 						</li>
 				</section>
