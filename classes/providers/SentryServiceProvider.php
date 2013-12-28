@@ -9,6 +9,8 @@ use Cartalyst\Sentry\Users\Eloquent\Provider as UserProvider;
 use Cartalyst\Sentry\Groups\Eloquent\Provider as GroupProvider;
 use Cartalyst\Sentry\Throttling\Eloquent\Provider as ThrottleProvider;
 use Cartalyst\Sentry\Sessions\NativeSession;
+use Deployer\Sentry\Sessions\SymfonySession;
+use Symfony\Component\HttpFoundation\Session\SessionInterface as SymfonySessionInterface;
 use Cartalyst\Sentry\Cookies\NativeCookie;
 use Cartalyst\Sentry\Sentry;
 
@@ -37,8 +39,12 @@ class SentryServiceProvider implements ServiceProviderInterface
             return new ThrottleProvider($app['sentry.user_provider'], isset($app['sentry.providers']['throttle']) ? $app['sentry.providers']['throttle'] : null);
         });
 
-        $app['sentry.session'] = $app->share(function() {
-            return new NativeSession(isset($app['sentry.session_key']) ? $app['sentry.session_key'] : null);
+        $app['sentry.session'] = $app->share(function() use ($app) {
+            if (isset($app['session']) && ($app['session'] instanceof SymfonySessionInterface)) {
+                return new SymfonySession($app['session'], isset($app['sentry.session_key']) ? $app['sentry.session_key'] : null);
+            } else {
+                return new NativeSession(isset($app['sentry.session_key']) ? $app['sentry.session_key'] : null);
+            }
         });
 
         $app['sentry.cookie'] = $app->share(function() use ($app) {

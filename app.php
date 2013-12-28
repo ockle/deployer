@@ -8,11 +8,17 @@ use Deployer\Models\Host;
 use Deployer\Models\Project;
 use Deployer\Models\User;
 
-$app = new Silex\Application;
+$app = new Deployer\Application;
 
 $app['debug'] = true; // @TODO: remove this
 
+$app->register(new Silex\Provider\SessionServiceProvider);
+
 $app->register(new Silex\Provider\UrlGeneratorServiceProvider);
+
+$app->register(new Silex\Provider\TranslationServiceProvider, array(
+    'locale_fallbacks' => array('en'),
+));
 
 $app->register(new Deployer\ServiceProviders\CapsuleServiceProvider, array(
     'capsule.connection' => array(
@@ -21,6 +27,8 @@ $app->register(new Deployer\ServiceProviders\CapsuleServiceProvider, array(
         'password' => ''
     )
 ));
+
+$app->register(new Deployer\ServiceProviders\ValidatorServiceProvider);
 
 $app->register(new Deployer\ServiceProviders\SentryServiceProvider, array(
     'sentry.providers' => array(
@@ -128,11 +136,26 @@ $app->get('/users', function() use ($app) {
  */
 $app->get('/user/add', function() use ($app) {
     $data = array(
-    );
+        'type' => 'add',
+    ) + $app->getRedirectData();
 
-    return $app['blade']->make('user.add', $data);
+    return $app['blade']->make('user.add-edit', $data);
 })
 ->bind('user.add');
+
+$app->post('/user/add', function() use ($app) {
+    $validation = $app['validator']($app['request']->request->all(), User::$rules, User::$messages);
+
+    if ($validation->passes()) {
+
+    } else {
+        return $app->redirectWithData('/user/add', array(
+            'success'       => false,
+            'errorMessages' => $validation->messages()->all(),
+            'oldInput'      => $app['request']->request->all()
+        ));
+    }
+});
 
 /**
  * Display account

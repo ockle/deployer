@@ -25,33 +25,33 @@
 				<section class="top-bar-section">
 					<ul class="right">
 						<li>
-							<a href="{{ $app['url_generator']->generate('account') }}">Welcome back, User</a>
+							<a href="{{ $app->path('account') }}">Welcome back, User</a>
 						</li>
 					</ul>
 
 					<ul class="left">
 						<li>
-							<a href="{{ $app['url_generator']->generate('home') }}" class="item">
+							<a href="{{ $app->path('home') }}" class="item">
 								<i class="fa fa-home"></i> Home
 							</a>
 						</li>
 						<li>
-							<a href="{{ $app['url_generator']->generate('projects') }}" class="item">
+							<a href="{{ $app->path('projects') }}" class="item">
 								<i class="fa fa-folder-open"></i> Projects
 							</a>
 						</li>
 						<li>
-							<a href="{{ $app['url_generator']->generate('hosts') }}" class="item">
+							<a href="{{ $app->path('hosts') }}" class="item">
 								<i class="fa fa-cloud"></i> Hosts
 							</a>
 						</li>
 						<li>
-							<a href="{{ $app['url_generator']->generate('users') }}" class="item">
+							<a href="{{ $app->path('users') }}" class="item">
 								<i class="fa fa-users"></i> Users
 							</a>
 						</li>
 						<li>
-							<a href="{{ $app['url_generator']->generate('settings') }}" class="item">
+							<a href="{{ $app->path('settings') }}" class="item">
 								<i class="fa fa-cog"></i> Settings
 							</a>
 						</li>

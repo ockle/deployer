@@ -2,13 +2,13 @@
 	"require": {
 		"silex/silex": "~1.1",
 		"illuminate/database": "4.1.*",
+		"illuminate/validation": "4.1.*",
 		"illuminate/view": "4.1.*",
 		"cartalyst/sentry": "2.0.*"
 	},
 	"autoload": {
 		"classmap": [
-			"providers",
-			"models"
+			"classes"
 		]
 	},
 	"minimum-stability": "stable"
