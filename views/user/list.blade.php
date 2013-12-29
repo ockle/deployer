@@ -7,6 +7,12 @@ Users
 @section('content')
 <h2>Users</h2>
 
+@if (isset($successMessage))
+<div class="success panel radius">
+	<p>{{ $successMessage }}</p>
+</div>
+@endif
+
 <table class="column">
 	<thead>
 		<tr>
@@ -19,7 +25,7 @@ Users
 	<tbody>
 		@foreach ($users as $user)
 		<tr>
-			<td>{{ $user->first_name }} {{ $user->last_name }}</td>
+			<td><a href="{{ $app->path('user.edit', array('user' => $user->id)) }}">{{ $user->first_name }} {{ $user->last_name }}</a></td>
 			<td>{{ $user->email }}</td>
 			<td>Cell 3</td>
 		</tr>

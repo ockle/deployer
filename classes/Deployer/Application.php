@@ -8,6 +8,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class Application extends \Silex\Application
 {
+    protected $redirectData;
+
     // Manually including the UrlGeneratorTrait because I require the application
     // to run under PHP 5.3, but still want the convenience of the short methods
 
@@ -21,7 +23,7 @@ class Application extends \Silex\Application
      */
     public function path($route, $parameters = array())
     {
-        return $this['url_generator']->generate($route, $parameters, UrlGeneratorInterface::ABSOLUTE_PATH);
+        return (($this['request']->getBasePath() != $this['basePath']) ? $this['basePath'] : '') . $this['url_generator']->generate($route, $parameters, UrlGeneratorInterface::ABSOLUTE_PATH);
     }
 
     /**
@@ -37,17 +39,58 @@ class Application extends \Silex\Application
         return $this['url_generator']->generate($route, $parameters, UrlGeneratorInterface::ABSOLUTE_URL);
     }
 
-    public function redirectWithData($path, array $data)
+    public function redirect($route, $data = array(), $status = 302)
     {
-        $this['session']->getFlashBag()->set('redirectData', $data);
+        $this->setRedirectData($data);
 
-        $subRequest = Request::create($path, 'GET');
+        return parent::redirect($this->path($route), $status);
+    }
+
+    public function forward($route, $data = array())
+    {
+        $this->setRedirectData($data);
+
+        $subRequest = Request::create($this->routeToPath($route), 'GET');
+
+        // $subRequest->baseUrl = $this['request']->baseUrl;
+        // $subRequest->requestUri = $this['request']->requestUri;
 
         return $this->handle($subRequest, HttpKernelInterface::SUB_REQUEST);
     }
 
+    protected function setRedirectData(array $data)
+    {
+        $this['session']->getFlashBag()->set('redirectData', $data);
+
+        return $this;
+    }
+
+    protected function routeToPath($route)
+    {
+        if (is_array($route)) {
+            $routeName       = $route[0];
+            $routeParameters = $route[1];
+        } else {
+            $routeName       = $route;
+            $routeParameters = array();
+        }
+
+        return str_replace($this['request']->getBaseUrl(), '', $this->path($routeName, $routeParameters));
+    }
+
     public function getRedirectData()
     {
-        return $this['session']->getFlashBag()->get('redirectData');
+        if (!isset($this->redirectData)) {
+            $this->redirectData = $this['session']->getFlashBag()->get('redirectData');
+        }
+
+        return $this->redirectData;
+    }
+
+    public function oldValue($name)
+    {
+        $redirectData = $this->getRedirectData();
+
+        return (isset($redirectData['oldInput'][$name])) ? $redirectData['oldInput'][$name] : false;
     }
 }

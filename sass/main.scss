@@ -112,10 +112,18 @@ $dark-blue-hover: #00BAFF; */
 	color: $success-panel-font-color;
 	background-color: $success-panel-bg;
 	border-color: scale-color($success-panel-bg, $lightness: $panel-function-factor);
+
+	p {
+		color: $success-panel-font-color;
+	}
 }
 
 .panel.error {
 	color: $error-panel-font-color;
 	background-color: $error-panel-bg;
 	border-color: scale-color($error-panel-bg, $lightness: $panel-function-factor);
+
+	p {
+		color: $error-panel-font-color;
+	}
 }

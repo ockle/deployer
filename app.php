@@ -3,6 +3,8 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
+date_default_timezone_set('Europe/London');
+
 use Deployer\Model\Deployment;
 use Deployer\Model\Host;
 use Deployer\Model\Project;
@@ -11,6 +13,10 @@ use Deployer\Model\User;
 $app = new Deployer\Application;
 
 $app['debug'] = true; // @TODO: remove this
+
+$app->before(function() use ($app) {
+    $app['basePath'] = $app['request']->getBasePath();
+});
 
 $app->register(new Silex\Provider\SessionServiceProvider);
 
@@ -52,6 +58,14 @@ $app['blade']->composer('*', function($view) use ($app) {
 
 $projectProvider = function($id) {
     return Project::find($id);
+};
+
+$userProvider = function($id) use ($app) {
+    try {
+        return $app['sentry']->findUserById($id);
+    } catch (Cartalyst\Sentry\Users\UserNotFoundException $e) {
+        return null;
+    }
 };
 
 /**
@@ -123,8 +137,7 @@ $app->get('/hosts', function() use ($app) {
  * Display users
  */
 $app->get('/users', function() use ($app) {
-    $data = array();
-
+    $data = array() + $app->getRedirectData();
     $data['users'] = $app['sentry']->findAllUsers();
 
     return $app['blade']->make('user.list', $data);
@@ -144,18 +157,53 @@ $app->get('/user/add', function() use ($app) {
 ->bind('user.add');
 
 $app->post('/user/add', function() use ($app) {
-    $validation = $app['validator']($app['request']->request->all(), User::$rules, User::$messages);
+    $input = $app['request']->request->all();
+
+    $errors = array();
+
+    $validation = $app['validator']($input, User::$rules, User::$messages);
 
     if ($validation->passes()) {
+        try {
+            $app['sentry']->createUser(array(
+                'email' => $input['email'],
+                'password' => $input['password'],
+                'first_name' => $input['first_name'],
+                'last_name' => $input['last_name']
+            ));
 
-    } else {
-        return $app->redirectWithData('/user/add', array(
-            'success'       => false,
-            'errorMessages' => $validation->messages()->all(),
-            'oldInput'      => $app['request']->request->all()
-        ));
+            return $app->redirect('user.list', array(
+                'successMessage' => 'User successfully added'
+            ));
+        } catch (Cartalyst\Sentry\Users\UserExistsException $e) {
+            $errors[] = 'A user with that email address already exists';
+        }
     }
+
+    return $app->forward('user.add', array(
+        'errorMessages' => $validation->messages()->all() + $errors,
+        'oldInput'      => $app['request']->request->all()
+    ));
 });
+
+/**
+ * Edit a user
+ */
+$app->get('/user/{user}/edit', function($user) use ($app) {
+    if (is_null($user)) {
+        $app->abort(404, 'User not found');
+    }
+
+    $data = array(
+        'type' => 'edit',
+        'user' => $user
+    ) + $app->getRedirectData();
+
+    return $app['blade']->make('user.add-edit', $data);
+})
+->assert('user', '\d+')
+->convert('user', $userProvider)
+->bind('user.edit');
 
 /**
  * Display account
