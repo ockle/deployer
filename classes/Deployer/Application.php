@@ -23,7 +23,7 @@ class Application extends \Silex\Application
      */
     public function path($route, $parameters = array())
     {
-        return (($this['request']->getBasePath() != $this['basePath']) ? $this['basePath'] : '') . $this['url_generator']->generate($route, $parameters, UrlGeneratorInterface::ABSOLUTE_PATH);
+        return $this['url_generator']->generate($route, $parameters, UrlGeneratorInterface::ABSOLUTE_PATH);
     }
 
     /**
@@ -50,10 +50,7 @@ class Application extends \Silex\Application
     {
         $this->setRedirectData($data);
 
-        $subRequest = Request::create($this->routeToPath($route), 'GET');
-
-        // $subRequest->baseUrl = $this['request']->baseUrl;
-        // $subRequest->requestUri = $this['request']->requestUri;
+        $subRequest = Request::create($this['request']->getUriForPath($this->routeToPath($route)), 'GET', array(), $this['request']->cookies->all(), $this['request']->files->all(), $this['request']->server->all());
 
         return $this->handle($subRequest, HttpKernelInterface::SUB_REQUEST);
     }

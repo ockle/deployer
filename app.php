@@ -14,10 +14,6 @@ $app = new Deployer\Application;
 
 $app['debug'] = true; // @TODO: remove this
 
-$app->before(function() use ($app) {
-    $app['basePath'] = $app['request']->getBasePath();
-});
-
 $app->register(new Silex\Provider\SessionServiceProvider);
 
 $app->register(new Silex\Provider\UrlGeneratorServiceProvider);
@@ -27,8 +23,8 @@ $app->register(new Silex\Provider\TranslationServiceProvider, array(
 ));
 
 $app->register(new Deployer\Provider\CapsuleServiceProvider, array(
-    'capsule.connection' => array(
-        'database' => 'deployer',
+    'capsule.connection' => array
+(        'database' => 'deployer',
         'username' => 'root',
         'password' => ''
     )
@@ -51,7 +47,7 @@ $app->register(new Deployer\Provider\BladeServiceProvider, array(
     )
 ));
 
-$projectProvider = function($id) {
+$projectProvider = function($id) use ($app) {
     $project = Project::find($id);
 
     if (is_null($project)) {
