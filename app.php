@@ -52,14 +52,20 @@ $app->register(new Deployer\Provider\BladeServiceProvider, array(
 ));
 
 $projectProvider = function($id) {
-    return Project::find($id);
+    $project = Project::find($id);
+
+    if (is_null($project)) {
+        $app->abort(404, 'User not found');
+    }
+
+    return $project;
 };
 
 $userProvider = function($id) use ($app) {
     try {
         return $app['sentry']->findUserById($id);
     } catch (Cartalyst\Sentry\Users\UserNotFoundException $e) {
-        return null;
+        $app->abort(404, 'Project not found');
     }
 };
 
@@ -92,10 +98,6 @@ $app->get('/projects', function() use ($app) {
  * View a project
  */
 $app->get('/project/{project}', function($project) use ($app) {
-    if (is_null($project)) {
-        $app->abort(404, 'Project not found');
-    }
-
     $data = array(
         'project' => $project
     );
@@ -185,10 +187,6 @@ $app->post('/user/add', function() use ($app) {
  * Edit a user
  */
 $app->get('/user/{user}/edit', function($user) use ($app) {
-    if (is_null($user)) {
-        $app->abort(404, 'User not found');
-    }
-
     $data = array(
         'type' => 'edit',
         'user' => $user
@@ -199,6 +197,40 @@ $app->get('/user/{user}/edit', function($user) use ($app) {
 ->assert('user', '\d+')
 ->convert('user', $userProvider)
 ->bind('user.edit');
+
+$app->post('/user/{user}/edit', function($user) use ($app) {
+    $input = $app['request']->request->all();
+
+    $errors = array();
+
+    $validation = $app['validator']($input, User::$rules, User::$messages);
+
+    if ($validation->passes()) {
+        try {
+            $user->first_name = $input['first_name'];
+            $user->last_name = $input['last_name'];
+            $user->email = $input['email'];
+
+            if (!empty($input['password'])) {
+                $user->password = $input['password'];
+            }
+
+            $user->save();
+
+            return $app->redirect('user.list', array(
+                'successMessage' => 'User successfully edited'
+            ));
+        } catch (Cartalyst\Sentry\Users\UserExistsException $e) {
+            $errors[] = 'A user with that email address already exists';
+        }
+    }
+    return $app->forward(array('user.edit', array('user' => $user->id)), array(
+        'errorMessages' => $validation->messages()->all() + $errors,
+        'oldInput'      => $app['request']->request->all()
+    ));
+})
+->assert('user', '\d+')
+->convert('user', $userProvider);
 
 /**
  * Display account

@@ -50,6 +50,7 @@
 								<i class="fa fa-users"></i> Users
 							</a>
 						</li>
+					</ul>
 				</section>
 			</nav>
 		</div>
