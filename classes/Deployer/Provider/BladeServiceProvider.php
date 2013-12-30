@@ -1,6 +1,6 @@
 <?php
 
-namespace Deployer\ServiceProviders;
+namespace Deployer\Provider;
 
 use Silex\Application;
 use Silex\ServiceProviderInterface;
@@ -50,7 +50,11 @@ class BladeServiceProvider implements ServiceProviderInterface
         });
 
         $app['blade'] = $app->share(function($app) {
-            return new Environment($app['blade.resolver'], $app['blade.finder'], $app['blade.dispatcher']);
+            $blade = new Environment($app['blade.resolver'], $app['blade.finder'], $app['blade.dispatcher']);
+
+            $blade->share('app', $app);
+
+            return $blade;
         });
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Deployer\ServiceProviders;
+namespace Deployer\Provider;
 
 use Silex\Application;
 use Silex\ServiceProviderInterface;

@@ -26,7 +26,7 @@ $app->register(new Silex\Provider\TranslationServiceProvider, array(
     'locale_fallbacks' => array('en'),
 ));
 
-$app->register(new Deployer\ServiceProviders\CapsuleServiceProvider, array(
+$app->register(new Deployer\Provider\CapsuleServiceProvider, array(
     'capsule.connection' => array(
         'database' => 'deployer',
         'username' => 'root',
@@ -34,15 +34,15 @@ $app->register(new Deployer\ServiceProviders\CapsuleServiceProvider, array(
     )
 ));
 
-$app->register(new Deployer\ServiceProviders\ValidatorServiceProvider);
+$app->register(new Deployer\Provider\ValidatorServiceProvider);
 
-$app->register(new Deployer\ServiceProviders\SentryServiceProvider, array(
+$app->register(new Deployer\Provider\SentryServiceProvider, array(
     'sentry.providers' => array(
         'user' => 'Deployer\Model\User'
     )
 ));
 
-$app->register(new Deployer\ServiceProviders\BladeServiceProvider, array(
+$app->register(new Deployer\Provider\BladeServiceProvider, array(
     'blade.settings' => array(
         'cache' => '/tmp',
         'views' => array(
@@ -50,11 +50,6 @@ $app->register(new Deployer\ServiceProviders\BladeServiceProvider, array(
         )
     )
 ));
-
-// Inject the $app into every blade view
-$app['blade']->composer('*', function($view) use ($app) {
-    $view->app = $app;
-});
 
 $projectProvider = function($id) {
     return Project::find($id);
