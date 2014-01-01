@@ -57,6 +57,17 @@ $projectProvider = function($id) use ($app) {
     return $project;
 };
 
+
+$hostProvider = function($id) use ($app) {
+    $host = Host::find($id);
+
+    if (is_null($host)) {
+        $app->abort(404, 'Host not found');
+    }
+
+    return $host;
+};
+
 $userProvider = function($id) use ($app) {
     try {
         return $app['sentry']->findUserById($id);
@@ -120,18 +131,99 @@ $app->get('/project/add', function() use ($app) {
  */
 $app->get('/hosts', function() use ($app) {
     $data = array(
-    );
+        'hosts' => Host::nameAsc()->get()
+    ) + $app->getRedirectData();
 
     return $app['blade']->make('host.list', $data);
 })
 ->bind('host.list');
 
 /**
+ * Add a host
+ */
+$app->get('/host/add', function() use ($app) {
+    $data = array(
+        'type' => 'add'
+    ) + $app->getRedirectData();
+
+    return $app['blade']->make('host.add-edit', $data);
+})
+->bind('host.add');
+
+$app->post('/host/add', function() use ($app) {
+    $input = $app['request']->request->all();
+
+    $errors = array();
+
+    $validation = $app['validator']($input, Host::$rules, Host::$messages);
+
+    if ($validation->passes()) {
+        $host = new Host;
+        $host->name = $input['name'];
+
+        if ($host->save()) {
+            return $app->redirect('host.list', array(
+                'successMessage' => 'Host successfully added'
+            ));
+        }
+
+        $errors[] = 'Unable to save host to database';
+    }
+
+    return $app->forward('host.add', array(
+        'errorMessages' => $validation->messages()->all() + $errors,
+        'oldInput'      => $app['request']->request->all()
+    ));
+});
+
+/**
+ * Edit a host
+ */
+$app->get('/host/{host}/edit', function($host) use ($app) {
+    $data = array(
+        'type' => 'edit',
+        'host' => $host
+    ) + $app->getRedirectData();
+
+    return $app['blade']->make('host.add-edit', $data);
+})
+->assert('host', '\d+')
+->convert('host', $hostProvider)
+->bind('host.edit');
+
+$app->post('/host/{host}/edit', function($host) use ($app) {
+    $input = $app['request']->request->all();
+
+    $errors = array();
+
+    $validation = $app['validator']($input, Host::$rules, Host::$messages);
+
+    if ($validation->passes()) {
+        $host->name = $input['name'];
+
+        if ($host->save()) {
+            return $app->redirect('host.list', array(
+                'successMessage' => 'Host successfully edited'
+            ));
+        }
+
+        $errors[] = 'Unable to save host to database';
+    }
+    return $app->forward(array('host.edit', array('host' => $host->id)), array(
+        'errorMessages' => $validation->messages()->all() + $errors,
+        'oldInput'      => $app['request']->request->all()
+    ));
+})
+->assert('host', '\d+')
+->convert('host', $hostProvider);
+
+/**
  * Display users
  */
 $app->get('/users', function() use ($app) {
-    $data = array() + $app->getRedirectData();
-    $data['users'] = $app['sentry']->findAllUsers();
+    $data = array(
+        'users' => $app['sentry']->findAllUsers()
+    ) + $app->getRedirectData();
 
     return $app['blade']->make('user.list', $data);
 })

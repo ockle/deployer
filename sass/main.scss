@@ -21,6 +21,8 @@ $success-panel-font-color: #52A954;
 $success-panel-bg: #DEFCD5;
 $error-panel-font-color: #A95252;
 $error-panel-bg: #F1D7D7;
+$information-panel-font-color: #4D8796;
+$information-panel-bg: #E6F4F9;
 /* $blue-hover: #1AB8F3;
 $blue-active: #0AA5DF;
 $dark-blue: #009FDA;
@@ -125,5 +127,15 @@ $dark-blue-hover: #00BAFF; */
 
 	p {
 		color: $error-panel-font-color;
+	}
+}
+
+.panel.information {
+	color: $information-panel-font-color;
+	background-color: $information-panel-bg;
+	border-color: scale-color($information-panel-bg, $lightness: $panel-function-factor);
+
+	p {
+		color: $information-panel-font-color;
 	}
 }

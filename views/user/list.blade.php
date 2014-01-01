@@ -9,6 +9,7 @@ Users
 
 @include('partial.success-error')
 
+@if (!empty($users))
 <table class="column">
 	<thead>
 		<tr>
@@ -28,6 +29,9 @@ Users
 		@endforeach
 	</tbody>
 </table>
+@else
+<p>There are currently no users</p>
+@endif
 
 <a href="{{ $app->path('user.add') }}" class="button tiny radius"><i class="fa fa-plus"></i> Add a user</a>
 @stop
