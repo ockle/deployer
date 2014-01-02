@@ -6,11 +6,11 @@ class Project extends \Illuminate\Database\Eloquent\Model
 {
 	public function deployments()
 	{
-		return $this->hasMany('Deployer\Models\Deployment');
+		return $this->hasMany('Deployer\Model\Deployment');
 	}
 
 	public function host()
 	{
-		return $this->belongsTo('Deployer\Models\Host');
+		return $this->belongsTo('Deployer\Model\Host');
 	}
 }

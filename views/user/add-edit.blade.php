@@ -32,11 +32,16 @@
 	<fieldset>
 		<legend>Host accounts</legend>
 
-		<label>Bitbucket</label>
-		<input type="text">
-
-		<label>Github</label>
-		<input type="text">
+		@if (!$hosts->isEmpty())
+			@foreach ($hosts as $host)
+			<label>{{{ $host->name }}}</label>
+			<input type="text" name="hosts[{{ $host->id }}]" value="{{{ (isset($user->hosts) && $user->hosts->contains($host->id)) ? $user->hosts->find($host->id)->pivot->username : '' }}}">
+			@endforeach
+		@else
+		<div class="information panel radius">
+			<p>There are currently no hosts</p>
+		</div>
+		@endif
 	</fieldset>
 
 	<input type="hidden" name="type" value="{{ $type }}">

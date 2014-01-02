@@ -14,12 +14,12 @@ class Host extends \Illuminate\Database\Eloquent\Model
 
 	public function projects()
 	{
-		return $this->hasMany('Deployer\Models\Project');
+		return $this->hasMany('Deployer\Model\Project');
 	}
 
 	public function users()
 	{
-		return $this->belongsToMany('Deployer\Models\User');
+		return $this->belongsToMany('Deployer\Model\User');
 	}
 
 	public function scopeNameAsc($query)

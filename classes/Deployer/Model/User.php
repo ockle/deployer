@@ -24,11 +24,11 @@ class User extends \Cartalyst\Sentry\Users\Eloquent\User
 
 	public function deployments()
 	{
-		return $this->hasMany('Deployer\Models\Deployment');
+		return $this->hasMany('Deployer\Model\Deployment');
 	}
 
 	public function hosts()
 	{
-		return $this->belongsToMany('Deployer\Models\Host');
+		return $this->belongsToMany('Deployer\Model\Host')->withPivot('username');
 	}
 }

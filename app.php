@@ -234,7 +234,8 @@ $app->get('/users', function() use ($app) {
  */
 $app->get('/user/add', function() use ($app) {
     $data = array(
-        'type' => 'add',
+        'type'  => 'add',
+        'hosts' => Host::nameAsc()->get()
     ) + $app->getRedirectData();
 
     return $app['blade']->make('user.add-edit', $data);
@@ -250,18 +251,28 @@ $app->post('/user/add', function() use ($app) {
 
     if ($validation->passes()) {
         try {
-            $app['sentry']->createUser(array(
+            $user = $app['sentry']->createUser(array(
                 'email' => $input['email'],
                 'password' => $input['password'],
                 'first_name' => $input['first_name'],
                 'last_name' => $input['last_name']
             ));
 
+            $usernames = array();
+
+            foreach ($input['hosts'] as $hostId => $username) {
+                $usernames[$hostId] = array('username' => $username);
+            }
+
+            $user->hosts()->sync($usernames);
+
             return $app->redirect('user.list', array(
                 'successMessage' => 'User successfully added'
             ));
         } catch (Cartalyst\Sentry\Users\UserExistsException $e) {
             $errors[] = 'A user with that email address already exists';
+        } catch (Illuminate\Database\QueryException $e) {
+            $errors[] = 'Unable to add host accounts';
         }
     }
 
@@ -275,9 +286,12 @@ $app->post('/user/add', function() use ($app) {
  * Edit a user
  */
 $app->get('/user/{user}/edit', function($user) use ($app) {
+    $user->load('hosts');
+
     $data = array(
-        'type' => 'edit',
-        'user' => $user
+        'type'  => 'edit',
+        'user'  => $user,
+        'hosts' => Host::nameAsc()->get()
     ) + $app->getRedirectData();
 
     return $app['blade']->make('user.add-edit', $data);
@@ -305,11 +319,21 @@ $app->post('/user/{user}/edit', function($user) use ($app) {
 
             $user->save();
 
+            $usernames = array();
+
+            foreach ($input['hosts'] as $hostId => $username) {
+                $usernames[$hostId] = array('username' => $username);
+            }
+
+            $user->hosts()->sync($usernames);
+
             return $app->redirect('user.list', array(
                 'successMessage' => 'User successfully edited'
             ));
         } catch (Cartalyst\Sentry\Users\UserExistsException $e) {
             $errors[] = 'A user with that email address already exists';
+        } catch (Illuminate\Database\QueryException $e) {
+            $errors[] = 'Unable to update host accounts';
         }
     }
     return $app->forward(array('user.edit', array('user' => $user->id)), array(
