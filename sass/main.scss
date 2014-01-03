@@ -9,6 +9,7 @@ $topbar-media-query: "only screen and (min-width: 881px)";
 $topbar-breakpoint: 881px;
 $button-font-tny: 0.9rem;
 $row-width: 100%;
+$tabs-content-margin-bottom: 0;
 @import "../bower_components/foundation/scss/foundation";
 
 $fa-font-path: "../../font-awesome/fonts";
@@ -57,6 +58,10 @@ $dark-blue-hover: #00BAFF; */
 			}
 		}
 	}
+}
+
+a:focus {
+	outline: 0 none;
 }
 
 .button {
@@ -137,5 +142,20 @@ $dark-blue-hover: #00BAFF; */
 
 	p {
 		color: $information-panel-font-color;
+	}
+}
+
+.tabs {
+	dd.active {
+		border: 0px solid $tabs-navigation-bg-color;
+		border-top-width: 1px;
+
+		&:first-child {
+			border-left-width: 1px;
+		}
+
+		&:last-child {
+			border-right-width: 1px;
+		}
 	}
 }
