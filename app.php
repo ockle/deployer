@@ -109,11 +109,11 @@ $app->get('/project/{project}', function($project) use ($app) {
         'project' => $project
     );
 
-    return $app['blade']->make('project.read', $data);
+    return $app['blade']->make('project.view', $data);
 })
 ->assert('project', '\d+')
 ->convert('project', $projectProvider)
-->bind('project.read');
+->bind('project.view');
 
 /**
  * Add a project

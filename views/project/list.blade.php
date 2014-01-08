@@ -25,7 +25,7 @@ Projects
 	<tbody>
 		@foreach ($projects as $project)
 		<tr class="row">
-			<td class="small-4 columns"><a href="{{ $app->path('project.read', array('project' => $project->id)) }}">{{ $project->name }}</a></td>
+			<td class="small-4 columns"><a href="{{ $app->path('project.view', array('project' => $project->id)) }}">{{ $project->name }}</a></td>
 			<td class="small-4 columns">/var/www/site.com/</td>
 			<td class="small-4 columns">Bitbucket</td>
 		</tr>

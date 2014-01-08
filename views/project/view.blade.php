@@ -36,16 +36,16 @@
 <table class="column">
 	<thead>
 		<tr class="row">
-			<th class="small-2 columns">Date</th>
-			<th class="small-8 columns">Commit</th>
-			<th class="small-2 columns">User</th>
+			<th class="small-3 medium-3 columns">Date</th>
+			<th class="small-6 medium-7 columns">Commit</th>
+			<th class="small-3 medium-2 columns">User</th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr class="row">
-			<td class="small-2 columns">11/11/2011 11:11:11</td>
-			<td class="small-8 columns">This is the commit message</td>
-			<td class="small-2 columns">
+			<td class="small-3 medium-3 columns">11/11/2011 11:11:11</td>
+			<td class="small-6 medium-7 columns">This is the commit message</td>
+			<td class="small-3 medium-2 columns">
 				<a href="">User</a>
 			</td>
 		</tr>

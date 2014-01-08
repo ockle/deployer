@@ -30,6 +30,9 @@ $dark-blue: #009FDA;
 $dark-blue-hover: #00BAFF; */
 
 .container {
+	max-width: 62.5rem;
+	margin: 0 auto;
+	// padding-top: 0.5rem;
 	padding: 0.5rem 2rem 0 2rem;
 }
 
@@ -89,7 +92,6 @@ a:focus {
 		padding: 0.6rem 0;
 		display: table;
 		border-bottom: 1px solid $grey;
-		max-width: 62.5rem;
 
 		&:last-of-type {
 			border-bottom-width: 0;
