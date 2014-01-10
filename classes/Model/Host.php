@@ -4,6 +4,9 @@ namespace Deployer\Model;
 
 class Host extends \Illuminate\Database\Eloquent\Model
 {
+	const BRANCH_FIELD = 1;
+	const REF_FIELD = 2;
+
 	public static $rules = array(
 		'name'              => 'required',
 		'pusher_field'      => 'required',
