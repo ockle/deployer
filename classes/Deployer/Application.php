@@ -88,6 +88,24 @@ class Application extends \Silex\Application
     {
         $redirectData = $this->getRedirectData();
 
-        return (isset($redirectData['oldInput'][$name])) ? $redirectData['oldInput'][$name] : false;
+        if (!is_array($name)) {
+            return (isset($redirectData['oldInput'][$name])) ? $redirectData['oldInput'][$name] : false;
+        } else {
+            if (!array_key_exists('oldInput', $redirectData)) {
+                return false;
+            }
+
+            $current = $redirectData['oldInput'];
+
+            foreach ($name as $key) {
+                if (!array_key_exists($key, $current)) {
+                    return false;
+                }
+
+                $current = $current[$key];
+            }
+
+            return $current;
+        }
     }
 }

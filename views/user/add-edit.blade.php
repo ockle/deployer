@@ -42,7 +42,7 @@
 			@if (!$hosts->isEmpty())
 				@foreach ($hosts as $host)
 				<label>{{{ $host->name }}}</label>
-				<input type="text" name="hosts[{{ $host->id }}]" value="{{{ (isset($user->hosts) && $user->hosts->contains($host->id)) ? $user->hosts->find($host->id)->pivot->username : '' }}}">
+				<input type="text" name="hosts[{{ $host->id }}]" value="{{{ $app->oldValue(array('hosts', $host->id)) ?: ((isset($user->hosts) && $user->hosts->contains($host->id)) ? $user->hosts->find($host->id)->pivot->username : '') }}}">
 				@endforeach
 			@else
 			<div class="information panel radius">
