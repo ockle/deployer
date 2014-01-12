@@ -14,6 +14,8 @@ $app = new Deployer\Application;
 
 $app['debug'] = true; // @TODO: remove this
 
+$app['config'] = require_once 'config.php';
+
 $app->register(new Silex\Provider\SessionServiceProvider);
 
 $app->register(new Silex\Provider\UrlGeneratorServiceProvider);
@@ -23,11 +25,7 @@ $app->register(new Silex\Provider\TranslationServiceProvider, array(
 ));
 
 $app->register(new Deployer\Provider\CapsuleServiceProvider, array(
-    'capsule.connection' => array
-(        'database' => 'deployer',
-        'username' => 'root',
-        'password' => ''
-    )
+    'capsule.connection' => $app['config']['database']
 ));
 
 $app->register(new Deployer\Provider\ValidatorServiceProvider);

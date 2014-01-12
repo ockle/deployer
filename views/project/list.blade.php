@@ -17,7 +17,7 @@ Projects
 	<thead>
 		<tr class="row">
 			<th class="small-4 columns">Name</th>
-			<th class="small-4 columns">Depoyment Destination</th>
+			<th class="small-4 columns">Deployment Destination</th>
 			<th class="small-4 columns">Host</th>
 		</tr>
 	</thead>
