@@ -39,10 +39,10 @@
 		</div>
 
 		<div class="content column" id="host-accounts">
-			@if (!$hosts->isEmpty())
+			@if (!empty($hosts))
 				@foreach ($hosts as $host)
-				<label>{{{ $host->name }}}</label>
-				<input type="text" name="hosts[{{ $host->id }}]" value="{{{ $app->oldValue(array('hosts', $host->id)) ?: ((isset($user->hosts) && $user->hosts->contains($host->id)) ? $user->hosts->find($host->id)->pivot->username : '') }}}">
+				<label>{{{ $host }}}</label>
+				<input type="text" name="hosts[{{ $host }}]" value="{{{ $app->oldValue(array('hosts', $host)) ?: ((isset($usernames) && array_key_exists($host, $usernames)) ? $usernames[$host] : '') }}}">
 				@endforeach
 			@else
 			<div class="information panel radius">

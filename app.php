@@ -6,9 +6,9 @@ error_reporting(E_ALL);
 date_default_timezone_set('Europe/London');
 
 use Deployer\Model\Deployment;
-use Deployer\Model\Host;
 use Deployer\Model\Project;
 use Deployer\Model\User;
+use Deployer\Model\Username;
 
 $app = new Deployer\Application;
 
@@ -53,17 +53,6 @@ $projectProvider = function($id) use ($app) {
     }
 
     return $project;
-};
-
-
-$hostProvider = function($id) use ($app) {
-    $host = Host::find($id);
-
-    if (is_null($host)) {
-        $app->abort(404, 'Host not found');
-    }
-
-    return $host;
 };
 
 $userProvider = function($id) use ($app) {
@@ -118,102 +107,12 @@ $app->get('/project/{project}', function($project) use ($app) {
  */
 $app->get('/project/add', function() use ($app) {
     $data = array(
+        'hosts' => array_keys($app['config']['hosts'])
     );
 
     return $app['blade']->make('project.add', $data);
 })
 ->bind('project.add');
-
-/**
- * Display hosts
- */
-$app->get('/hosts', function() use ($app) {
-    $data = array(
-        'hosts' => Host::nameAsc()->get()
-    ) + $app->getRedirectData();
-
-    return $app['blade']->make('host.list', $data);
-})
-->bind('host.list');
-
-/**
- * Add a host
- */
-$app->get('/host/add', function() use ($app) {
-    $data = array(
-        'type' => 'add'
-    ) + $app->getRedirectData();
-
-    return $app['blade']->make('host.add-edit', $data);
-})
-->bind('host.add');
-
-$app->post('/host/add', function() use ($app) {
-    $input = $app['request']->request->all();
-
-    $errors = array();
-
-    $validation = $app['validator']($input, Host::$rules, Host::$messages);
-
-    if ($validation->passes()) {
-        $host = new Host;
-        $host->name = $input['name'];
-
-        if ($host->save()) {
-            return $app->redirect('host.list', array(
-                'successMessage' => 'Host successfully added'
-            ));
-        }
-
-        $errors[] = 'Unable to save host to database';
-    }
-
-    return $app->forward('host.add', array(
-        'errorMessages' => $validation->messages()->all() + $errors,
-        'oldInput'      => $app['request']->request->all()
-    ));
-});
-
-/**
- * Edit a host
- */
-$app->get('/host/{host}/edit', function($host) use ($app) {
-    $data = array(
-        'type' => 'edit',
-        'host' => $host
-    ) + $app->getRedirectData();
-
-    return $app['blade']->make('host.add-edit', $data);
-})
-->assert('host', '\d+')
-->convert('host', $hostProvider)
-->bind('host.edit');
-
-$app->post('/host/{host}/edit', function($host) use ($app) {
-    $input = $app['request']->request->all();
-
-    $errors = array();
-
-    $validation = $app['validator']($input, Host::$rules, Host::$messages);
-
-    if ($validation->passes()) {
-        $host->name = $input['name'];
-
-        if ($host->save()) {
-            return $app->redirect('host.list', array(
-                'successMessage' => 'Host successfully edited'
-            ));
-        }
-
-        $errors[] = 'Unable to save host to database';
-    }
-    return $app->forward(array('host.edit', array('host' => $host->id)), array(
-        'errorMessages' => $validation->messages()->all() + $errors,
-        'oldInput'      => $app['request']->request->all()
-    ));
-})
-->assert('host', '\d+')
-->convert('host', $hostProvider);
 
 /**
  * Display users
@@ -233,7 +132,7 @@ $app->get('/users', function() use ($app) {
 $app->get('/user/add', function() use ($app) {
     $data = array(
         'type'  => 'add',
-        'hosts' => Host::nameAsc()->get()
+        'hosts' => array_keys($app['config']['hosts'])
     ) + $app->getRedirectData();
 
     return $app['blade']->make('user.add-edit', $data);
@@ -256,13 +155,22 @@ $app->post('/user/add', function() use ($app) {
                 'last_name' => $input['last_name']
             ));
 
-            $usernames = array();
+            $user->save();
 
-            foreach ($input['hosts'] as $hostId => $username) {
-                $usernames[$hostId] = array('username' => $username);
+            foreach ($input['hosts'] as $hostName => $usernameValue) {
+                if (!empty($usernameValue)) {
+                    $username = $user->usernames()->where('host', '=', $hostName)->first();
+
+                    if (is_null($username)) {
+                        $username = new Username;
+                        $username->host = $hostName;
+                    }
+
+                    $username->username = $usernameValue;
+                    $username->user()->associate($user);
+                    $username->save();
+                }
             }
-
-            $user->hosts()->sync($usernames);
 
             return $app->redirect('user.list', array(
                 'successMessage' => 'User successfully added'
@@ -284,12 +192,11 @@ $app->post('/user/add', function() use ($app) {
  * Edit a user
  */
 $app->get('/user/{user}/edit', function($user) use ($app) {
-    $user->load('hosts');
-
     $data = array(
         'type'  => 'edit',
         'user'  => $user,
-        'hosts' => Host::nameAsc()->get()
+        'hosts' => array_keys($app['config']['hosts']),
+        'usernames' => $user->usernames()->lists('username', 'host')
     ) + $app->getRedirectData();
 
     return $app['blade']->make('user.add-edit', $data);
@@ -317,13 +224,22 @@ $app->post('/user/{user}/edit', function($user) use ($app) {
 
             $user->save();
 
-            $usernames = array();
+            foreach ($input['hosts'] as $hostName => $usernameValue) {
+                $username = $user->usernames()->where('host', '=', $hostName)->first();
 
-            foreach ($input['hosts'] as $hostId => $username) {
-                $usernames[$hostId] = array('username' => $username);
+                if (!empty($usernameValue)) {
+                    if (is_null($username)) {
+                        $username = new Username;
+                        $username->host = $hostName;
+                    }
+
+                    $username->username = $usernameValue;
+                    $username->user()->associate($user);
+                    $username->save();
+                } elseif (!is_null($username)) {
+                    $username->delete();
+                }
             }
-
-            $user->hosts()->sync($usernames);
 
             return $app->redirect('user.list', array(
                 'successMessage' => 'User successfully edited'

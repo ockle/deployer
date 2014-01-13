@@ -27,8 +27,8 @@ class User extends \Cartalyst\Sentry\Users\Eloquent\User
 		return $this->hasMany('Deployer\Model\Deployment');
 	}
 
-	public function hosts()
+	public function usernames()
 	{
-		return $this->belongsToMany('Deployer\Model\Host')->withPivot('username');
+		return $this->hasMany('Deployer\Model\Username');
 	}
 }

@@ -41,11 +41,6 @@
 							</a>
 						</li>
 						<li>
-							<a href="{{ $app->path('host.list') }}" class="item">
-								<i class="fa fa-cloud"></i> Hosts
-							</a>
-						</li>
-						<li>
 							<a href="{{ $app->path('user.list') }}" class="item">
 								<i class="fa fa-users"></i> Users
 							</a>

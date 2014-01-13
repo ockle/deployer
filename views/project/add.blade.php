@@ -12,9 +12,10 @@ Add a project
 	<input type="text">
 
 	<label>Host</label>
-	<select class="">
-		<option>Host 1</option>
-		<option>Host 2</option>
+	<select>
+		@foreach($hosts as $host)
+		<option>{{ $host }}</option>
+		@endforeach
 	</select>
 
 	<button type="submit" class="button tiny radius"><i class="fa fa-check"></i>Submit</button>
