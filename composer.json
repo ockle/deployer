@@ -1,4 +1,8 @@
 {
+	"name": "ockle/deployer",
+	"description": "Manage Git deployments to your server",
+	"keywords": ["deployer", "deploy", "deployment", "git"],
+	"license": "MIT",
 	"require": {
 		"silex/silex": "~1.1",
 		"illuminate/database": "~4.1",
