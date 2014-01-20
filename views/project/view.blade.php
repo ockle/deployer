@@ -7,29 +7,38 @@
 @section('content')
 <h2>{{ $project->name }}</h2>
 
-<ul class="small-block-grid-1 medium-block-grid-2">
-	<li>
-		<dl class="panel radius">
-			<dt>Last deployed</dt>
-			<dd>1 hour ago by <a href="">User</a></dd>
+<dl class="panel radius row">
+	<div class="small-12 medium-6 columns">
+		<dt>Last deployed</dt>
+		<dd>1 hour ago by <a href="">User</a></dd>
 
-			<dt>Current commit</dt>
-			<dd>This is the commit message</dd>
+		<dt>Respository</dt>
+		<dd>
+			<a href="">View on Bitbucket</a>
+		</dd>
+	</div>
 
-			<dt>Respository</dt>
-			<dd>
-				<a href="">View on Bitbucket</a>
-			</dd>
-		</dl>
-	</li>
-	<li>
-		<div class="panel radius row">
-			<button class="success radius button small-12 xlarge-6 columns"><i class="fa fa-wrench"></i> Manually deploy</button>
-			<button class="disabled radius button small-12 xlarge-6 columns" disabled><i class="fa fa-cogs"></i> Automatically deploying</button>
-			<a class="secondary radius button small-12 xlarge-5 columns"><i class="fa fa-cog"></i> Settings</a>
-		</div>
-	</li>
-</ul>
+	<div class="small-12 medium-6 columns">
+		<dt>Deployment type</dt>
+		<dd><i class="fa fa-cogs round"></i> Automatic</dd>
+
+		<dt>Directory</dt>
+		<dd>
+			/var/www/project.com/
+		</dd>
+	</div>
+
+	<div class="small-12 columns">
+		<dt>Current commit</dt>
+		<dd>This is the commit message</dd>
+	</div>
+</dl>
+
+<div class="row">
+	<button class="success large button small-12 medium-6 columns"><i class="fa fa-download"></i> Deploy</button>
+
+	<button class="button large small-12 medium-6 columns"><i class="fa fa-cog"></i> Settings</button>
+</div>
 
 <h3>Deployment history</h3>
 
