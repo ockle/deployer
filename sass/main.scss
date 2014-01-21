@@ -83,6 +83,16 @@ a:focus {
 	}
 }
 
+.button-group.radius {
+	.button {
+		width: 100%;
+
+		@media #{$small-only} {
+			border-radius: $button-radius;
+		}
+	}
+}
+
 .muted {
 	color: $dark-grey;
 }

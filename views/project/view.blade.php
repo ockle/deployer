@@ -34,11 +34,14 @@
 	</div>
 </dl>
 
-<div class="row">
-	<button class="success large button small-12 medium-6 columns"><i class="fa fa-download"></i> Deploy</button>
-
-	<button class="button large small-12 medium-6 columns"><i class="fa fa-cog"></i> Settings</button>
-</div>
+<ul class="button-group radius">
+	<li class="small-12 medium-6">
+		<button class="large success button"><i class="fa fa-download"></i> Deploy</button>
+	</li>
+	<li class="small-12 medium-6">
+		<button class="large button"><i class="fa fa-cog"></i> Settings</button>
+	</li>
+</ul>
 
 <h3>Deployment history</h3>
 
