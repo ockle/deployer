@@ -5,6 +5,7 @@ error_reporting(E_ALL);
 
 date_default_timezone_set('Europe/London');
 
+use Symfony\Component\Process\Process;
 use Deployer\Model\Deployment;
 use Deployer\Model\Project;
 use Deployer\Model\User;
@@ -273,9 +274,28 @@ $app->get('/account', function() use ($app) {
  * Handle the POST hook
  */
 $app->post('/hook/{hash}', function() use ($app) {
-    exec('git fetch origin master 2>&1');
-    exec('git reset --hard FETCH_HEAD 2>&1');
-    exec('git clean -df 2>&1');
+    chdir();
+
+    $fetch = new Process('git fetch origin master');
+    $fetch->run();
+
+    if (!$fetch->isSuccessful()) {
+
+    }
+
+    $reset = new Process('git reset --hard FETCH_HEAD');
+    $reset->run();
+
+    if (!$reset->isSuccessful()) {
+
+    }
+
+    $clean = new Process('git clean -df');
+    $clean->run();
+
+    if (!$clean->isSuccessful()) {
+
+    }
 })
 ->assert('hash', '[a-f0-9]{32}')
 ->bind('hook');
