@@ -13,4 +13,12 @@ class Deployment extends \Illuminate\Database\Eloquent\Model
 	{
 		return $this->belongsTo('Deployer\Model\User');
 	}
+
+	public function error($message)
+	{
+		$this->message = $message;
+		$this->status = 0;
+
+		return $this->save();
+	}
 }
