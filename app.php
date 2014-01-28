@@ -78,186 +78,48 @@ $app->get('/', function() use ($app) {
 /**
  * Display projects
  */
-$app->get('/projects', function() use ($app) {
-    $projects = Project::all();
-
-    $data = array(
-        'projects' => $projects
-    );
-
-    return $app['blade']->make('project.list', $data);
-})
-->bind('project.list');
+$app->get('/projects', 'Deployer\Controller\ProjectController::actionList')
+    ->bind('project.list');
 
 /**
  * View a project
  */
-$app->get('/project/{project}', function($project) use ($app) {
-    $data = array(
-        'project' => $project
-    );
-
-    return $app['blade']->make('project.view', $data);
-})
-->assert('project', '\d+')
-->convert('project', $projectProvider)
-->bind('project.view');
+$app->get('/project/{project}', 'Deployer\Controller\ProjectController::actionView')
+    ->assert('project', '\d+')
+    ->convert('project', $projectProvider)
+    ->bind('project.view');
 
 /**
  * Add a project
  */
-$app->get('/project/add', function() use ($app) {
-    $data = array(
-        'hosts' => array_keys($app['config']['hosts'])
-    );
-
-    return $app['blade']->make('project.add', $data);
-})
-->bind('project.add');
+$app->get('/project/add', 'Deployer\Controller\ProjectController::actionAdd')
+    ->bind('project.add');
 
 /**
  * Display users
  */
-$app->get('/users', function() use ($app) {
-    $data = array(
-        'users' => $app['sentry']->findAllUsers()
-    ) + $app->getRedirectData();
-
-    return $app['blade']->make('user.list', $data);
-})
-->bind('user.list');
+$app->get('/users', 'Deployer\Controller\UserController::actionList')
+    ->bind('user.list');
 
 /**
  * Add a user
  */
-$app->get('/user/add', function() use ($app) {
-    $data = array(
-        'type'  => 'add',
-        'hosts' => array_keys($app['config']['hosts'])
-    ) + $app->getRedirectData();
+$app->get('/user/add', 'Deployer\Controller\UserController::actionAdd')
+    ->bind('user.add');
 
-    return $app['blade']->make('user.add-edit', $data);
-})
-->bind('user.add');
-
-$app->post('/user/add', function() use ($app) {
-    $input = $app['request']->request->all();
-
-    $errors = array();
-
-    $validation = $app['validator']($input, User::$rules, User::$messages);
-
-    if ($validation->passes()) {
-        try {
-            $user = $app['sentry']->createUser(array(
-                'email' => $input['email'],
-                'password' => $input['password'],
-                'first_name' => $input['first_name'],
-                'last_name' => $input['last_name']
-            ));
-
-            $user->save();
-
-            foreach ($input['hosts'] as $hostName => $usernameValue) {
-                if (!empty($usernameValue)) {
-                    $username = $user->usernames()->where('host', '=', $hostName)->first();
-
-                    if (is_null($username)) {
-                        $username = new Username;
-                        $username->host = $hostName;
-                    }
-
-                    $username->username = $usernameValue;
-                    $username->user()->associate($user);
-                    $username->save();
-                }
-            }
-
-            return $app->redirect('user.list', array(
-                'successMessage' => 'User successfully added'
-            ));
-        } catch (Cartalyst\Sentry\Users\UserExistsException $e) {
-            $errors[] = 'A user with that email address already exists';
-        } catch (Illuminate\Database\QueryException $e) {
-            $errors[] = 'Unable to add host accounts';
-        }
-    }
-
-    return $app->forward('user.add', array(
-        'errorMessages' => $validation->messages()->all() + $errors,
-        'oldInput'      => $app['request']->request->all()
-    ));
-});
+$app->post('/user/add', 'Deployer\Controller\UserController::actionProcessAdd');
 
 /**
  * Edit a user
  */
-$app->get('/user/{user}/edit', function($user) use ($app) {
-    $data = array(
-        'type'  => 'edit',
-        'user'  => $user,
-        'hosts' => array_keys($app['config']['hosts']),
-        'usernames' => $user->usernames()->lists('username', 'host')
-    ) + $app->getRedirectData();
+$app->get('/user/{user}/edit', 'Deployer\Controller\UserController::actionEdit')
+    ->assert('user', '\d+')
+    ->convert('user', $userProvider)
+    ->bind('user.edit');
 
-    return $app['blade']->make('user.add-edit', $data);
-})
-->assert('user', '\d+')
-->convert('user', $userProvider)
-->bind('user.edit');
-
-$app->post('/user/{user}/edit', function($user) use ($app) {
-    $input = $app['request']->request->all();
-
-    $errors = array();
-
-    $validation = $app['validator']($input, User::$rules, User::$messages);
-
-    if ($validation->passes()) {
-        try {
-            $user->first_name = $input['first_name'];
-            $user->last_name = $input['last_name'];
-            $user->email = $input['email'];
-
-            if (!empty($input['password'])) {
-                $user->password = $input['password'];
-            }
-
-            $user->save();
-
-            foreach ($input['hosts'] as $hostName => $usernameValue) {
-                $username = $user->usernames()->where('host', '=', $hostName)->first();
-
-                if (!empty($usernameValue)) {
-                    if (is_null($username)) {
-                        $username = new Username;
-                        $username->host = $hostName;
-                    }
-
-                    $username->username = $usernameValue;
-                    $username->user()->associate($user);
-                    $username->save();
-                } elseif (!is_null($username)) {
-                    $username->delete();
-                }
-            }
-
-            return $app->redirect('user.list', array(
-                'successMessage' => 'User successfully edited'
-            ));
-        } catch (Cartalyst\Sentry\Users\UserExistsException $e) {
-            $errors[] = 'A user with that email address already exists';
-        } catch (Illuminate\Database\QueryException $e) {
-            $errors[] = 'Unable to update host accounts';
-        }
-    }
-    return $app->forward(array('user.edit', array('user' => $user->id)), array(
-        'errorMessages' => $validation->messages()->all() + $errors,
-        'oldInput'      => $app['request']->request->all()
-    ));
-})
-->assert('user', '\d+')
-->convert('user', $userProvider);
+$app->post('/user/{user}/edit', 'Deployer\Controller\UserController::actionProcessEdit')
+    ->assert('user', '\d+')
+    ->convert('user', $userProvider);
 
 /**
  * Display account
