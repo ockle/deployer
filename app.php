@@ -50,7 +50,7 @@ $projectProvider = function($id) use ($app) {
     $project = Project::find($id);
 
     if (is_null($project)) {
-        $app->abort(404, 'User not found');
+        $app->abort(404, 'Project not found');
     }
 
     return $project;
@@ -60,20 +60,15 @@ $userProvider = function($id) use ($app) {
     try {
         return $app['sentry']->findUserById($id);
     } catch (Cartalyst\Sentry\Users\UserNotFoundException $e) {
-        $app->abort(404, 'Project not found');
+        $app->abort(404, 'User not found');
     }
 };
 
 /**
  * Display home
  */
-$app->get('/', function() use ($app) {
-    $data = array(
-    );
-
-    return $app['blade']->make('home', $data);
-})
-->bind('home');
+$app->get('/', 'Deployer\Controller\HomeController::actionView')
+    ->bind('home');
 
 /**
  * Display projects
