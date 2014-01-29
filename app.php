@@ -5,12 +5,6 @@ error_reporting(E_ALL);
 
 date_default_timezone_set('Europe/London');
 
-use Symfony\Component\Process\Process;
-use Deployer\Model\Deployment;
-use Deployer\Model\Project;
-use Deployer\Model\User;
-use Deployer\Model\Username;
-
 $app = new Deployer\Application;
 
 $app['debug'] = true; // @TODO: remove this
@@ -47,7 +41,7 @@ $app->register(new Deployer\Provider\BladeServiceProvider, array(
 ));
 
 $projectProvider = function($id) use ($app) {
-    $project = Project::find($id);
+    $project = Deployer\Model\Project::find($id);
 
     if (is_null($project)) {
         $app->abort(404, 'Project not found');
@@ -64,16 +58,24 @@ $userProvider = function($id) use ($app) {
     }
 };
 
+$loggedIn = function(Symfony\Component\HttpFoundation\Request $request, Deployer\Application $app) {
+    if (!$app['sentry']->check()) {
+        $app->abort(403, 'Not logged in');
+    }
+};
+
 /**
  * Display home
  */
 $app->get('/', 'Deployer\Controller\HomeController::actionView')
+    ->before($loggedIn)
     ->bind('home');
 
 /**
  * Display projects
  */
 $app->get('/projects', 'Deployer\Controller\ProjectController::actionList')
+    ->before($loggedIn)
     ->bind('project.list');
 
 /**
@@ -81,6 +83,7 @@ $app->get('/projects', 'Deployer\Controller\ProjectController::actionList')
  */
 $app->get('/project/{project}', 'Deployer\Controller\ProjectController::actionView')
     ->assert('project', '\d+')
+    ->before($loggedIn)
     ->convert('project', $projectProvider)
     ->bind('project.view');
 
@@ -88,32 +91,38 @@ $app->get('/project/{project}', 'Deployer\Controller\ProjectController::actionVi
  * Add a project
  */
 $app->get('/project/add', 'Deployer\Controller\ProjectController::actionAdd')
+    ->before($loggedIn)
     ->bind('project.add');
 
 /**
  * Display users
  */
 $app->get('/users', 'Deployer\Controller\UserController::actionList')
+    ->before($loggedIn)
     ->bind('user.list');
 
 /**
  * Add a user
  */
 $app->get('/user/add', 'Deployer\Controller\UserController::actionAdd')
+    ->before($loggedIn)
     ->bind('user.add');
 
-$app->post('/user/add', 'Deployer\Controller\UserController::actionProcessAdd');
+$app->post('/user/add', 'Deployer\Controller\UserController::actionProcessAdd')
+    ->before($loggedIn);
 
 /**
  * Edit a user
  */
 $app->get('/user/{user}/edit', 'Deployer\Controller\UserController::actionEdit')
     ->assert('user', '\d+')
+    ->before($loggedIn)
     ->convert('user', $userProvider)
     ->bind('user.edit');
 
 $app->post('/user/{user}/edit', 'Deployer\Controller\UserController::actionProcessEdit')
     ->assert('user', '\d+')
+    ->before($loggedIn)
     ->convert('user', $userProvider);
 
 /**
@@ -130,81 +139,8 @@ $app->get('/account', function() use ($app) {
 /**
  * Handle the POST hook
  */
-$app->post('/hook/{hash}', function() use ($app) {
-    // Find project from hash
-    $project = Project::where('hash', '=', $hash)->first();
-
-    if (is_null($project)) {
-        $app->abort(404);
-    }
-
-    // Create host object
-    $projectHost = $project->host;
-
-    $host = new $projectHost($app['request']);
-
-    // Check pushed branch is the branch that the project deploys from
-    $branch = $host->getBranch();
-
-    if ($project->branch_name != $branch) {
-        $app->abort(404);
-    }
-
-    // Check the pusher is a user
-    $pusher = $host->getPusher();
-
-    $username = Username::where('host', '=', $projectHost)->where('username', '=', $host->getPusher())->first();
-
-    if (is_null($username)) {
-        $app->abort(404);
-    }
-
-    $user = $username->user;
-
-    // Create a record of the deployment
-    $deployment = new Deployment;
-    $deployment->project()->associate($project);
-    $deployment->user()->associate($user);
-
-    // Start deployment
-    chdir($project->directory);
-
-    $fetch = new Process('git fetch origin ' . $project->branch_name);
-    $fetch->run();
-
-    if (!$fetch->isSuccessful()) {
-        $deployment->error('Error fetching remote');
-
-        $app->abort(500);
-    }
-
-    $reset = new Process('git reset --hard FETCH_HEAD');
-    $reset->run();
-
-    if (!$reset->isSuccessful()) {
-        $deployment->error('Error resetting project to fetched files');
-
-        $app->abort(500);
-    }
-
-    $clean = new Process('git clean -df');
-    $clean->run();
-
-    if (!$clean->isSuccessful()) {
-        $deployment->error('Error cleaning project');
-
-        $app->abort(500);
-    }
-
-    // Deployment successful
-    $deployment->message = $host->getLastCommitMessage();
-    $deployment->status = 1;
-
-    $deployment->save();
-
-    return true;
-})
-->assert('hash', '[a-f0-9]{32}')
-->bind('hook');
+$app->post('/deployment/hook/{hash}', 'Deployer\Controller\DeploymentController::actionHook')
+    ->assert('hash', '[a-f0-9]{32}')
+    ->bind('deployment.hook');
 
 $app->run();
