@@ -60,7 +60,15 @@ $userProvider = function($id) use ($app) {
 
 $loggedIn = function(Symfony\Component\HttpFoundation\Request $request, Deployer\Application $app) {
     if (!$app['sentry']->check()) {
-        $app->abort(403, 'Not logged in');
+        return $app->redirect('login', array(
+            'errorMessage' => 'You must be logged in to access that page.'
+        ));
+    }
+};
+
+$notLoggedIn = function(Symfony\Component\HttpFoundation\Request $request, Deployer\Application $app) {
+    if ($app['sentry']->check()) {
+        return $app->redirect('home');
     }
 };
 
@@ -124,6 +132,17 @@ $app->post('/user/{user}/edit', 'Deployer\Controller\UserController::actionProce
     ->assert('user', '\d+')
     ->before($loggedIn)
     ->convert('user', $userProvider);
+
+/**
+ * Login
+ */
+$app->get('/login', 'Deployer\Controller\UserController::actionLogin')
+    ->before($notLoggedIn)
+    ->bind('login');
+
+$app->post('/login', 'Deployer\Controller\UserController::actionProcessLogin')
+    ->before($notLoggedIn);
+
 
 /**
  * Display account

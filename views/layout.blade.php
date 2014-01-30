@@ -22,6 +22,7 @@
 					<li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
 				</ul>
 
+				@if ($app['sentry']->check())
 				<section class="top-bar-section">
 					<ul class="right">
 						<li>
@@ -47,6 +48,7 @@
 						</li>
 					</ul>
 				</section>
+				@endif
 			</nav>
 		</div>
 

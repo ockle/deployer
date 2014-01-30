@@ -135,9 +135,18 @@ class UserController
                 $errors[] = 'Unable to update host accounts';
             }
         }
+
         return $app->forward(array('user.edit', array('user' => $user->id)), array(
             'errorMessages' => $validation->messages()->all() + $errors,
             'oldInput'      => $app['request']->request->all()
         ));
+    }
+
+    public function actionLogin(Application $app)
+    {
+        $data = array(
+        ) + $app->getRedirectData();
+
+        return $app['blade']->make('user.login', $data);
     }
 }
