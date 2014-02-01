@@ -143,6 +143,15 @@ $app->get('/login', 'Deployer\Controller\UserController::actionLogin')
 $app->post('/login', 'Deployer\Controller\UserController::actionProcessLogin')
     ->before($notLoggedIn);
 
+/**
+ * Logout
+ */
+$app->get('/logout', 'Deployer\Controller\UserController::actionLogout')
+    ->before($loggedIn)
+    ->bind('logout');
+
+$app->post('/logout', 'Deployer\Controller\UserController::actionProcessLogout')
+    ->before($loggedIn);
 
 /**
  * Display account

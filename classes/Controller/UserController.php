@@ -44,8 +44,6 @@ class UserController
                     'last_name' => $input['last_name']
                 ));
 
-                $user->save();
-
                 foreach ($input['hosts'] as $hostName => $usernameValue) {
                     if (!empty($usernameValue)) {
                         $username = $user->usernames()->where('host', '=', $hostName)->first();
@@ -148,5 +146,36 @@ class UserController
         ) + $app->getRedirectData();
 
         return $app['blade']->make('user.login', $data);
+    }
+
+    public function actionProcessLogin(Application $app)
+    {
+        $input = $app['request']->request->all();
+
+        try {
+            $user = $app['sentry']->authenticate(array(
+                'email'    => $input['email'],
+                'password' => $input['password']
+            ), true);
+        } catch (\Cartalyst\Sentry\Users\LoginRequiredException $e) {
+            $errorMessage = 'Email is a required field';
+        } catch (\Cartalyst\Sentry\Users\PasswordRequiredException $e) {
+            $errorMessage = 'Password is a required field';
+        } catch (\Cartalyst\Sentry\Users\WrongPasswordException $e) {
+            $errorMessage = 'Login failed';
+        } catch (\Cartalyst\Sentry\Users\UserNotFoundException $e) {
+            $errorMessage = 'Login failed';
+        } catch (\Cartalyst\Sentry\Users\UserNotActivatedException $e) {
+            $errorMessage = 'Login failed';
+        }
+
+        if (isset($errorMessage)) {
+            return $app->forward('login', array(
+                'errorMessage' => $errorMessage,
+                'oldInput'     => array('email' => $input['email'])
+            ));
+        }
+
+        return $app->redirect('home');
     }
 }

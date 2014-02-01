@@ -25,8 +25,22 @@
 				@if ($app['sentry']->check())
 				<section class="top-bar-section">
 					<ul class="right">
-						<li>
-							<a href="{{ $app->path('account') }}">Welcome back, User</a>
+						<li class="has-dropdown">
+							<a href="javascript:void(0)">
+								<i class="fa fa-user"></i> {{{ $app['sentry']->getUser()->first_name }}} {{{ $app['sentry']->getUser()->last_name }}}
+							</a>
+							<ul class="dropdown">
+								<li>
+									<a href="{{ $app->path('account') }}">
+										<i class="fa fa-book"></i> Account
+									</a>
+								</li>
+								<li>
+									<a href="{{ $app->path('logout') }}">
+										<i class="fa fa-power-off"></i> Logout
+									</a>
+								</li>
+							</ul>
 						</li>
 					</ul>
 
