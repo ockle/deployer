@@ -16,7 +16,7 @@ Login
 			<input type="text" name="email" placeholder="Email" value="{{{ $app->oldValue('email') ?: '' }}}">
 			<input type="password" name="password" placeholder="Password">
 
-			<button type="submit" class="radius tiny small-12">Login</button>
+			<button type="submit" class="radius tiny button small-12">Login</button>
 		</div>
 	</div>
 </form>

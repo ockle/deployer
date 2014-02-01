@@ -178,4 +178,18 @@ class UserController
 
         return $app->redirect('home');
     }
+
+    public function actionLogout(Application $app)
+    {
+        return $app['blade']->make('user.logout');
+    }
+
+    public function actionProcessLogout(Application $app)
+    {
+        $app['sentry']->logout();
+
+        return $app->redirect('login', array(
+            'successMessage' => 'You have successfully logged out'
+        ));
+    }
 }
