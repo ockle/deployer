@@ -30,144 +30,152 @@ $dark-blue: #009FDA;
 $dark-blue-hover: #00BAFF; */
 
 .container {
-	max-width: 62.5rem;
-	margin: 0 auto;
-	// padding-top: 0.5rem;
-	padding: 0.5rem 2rem 0 2rem;
+    max-width: 62.5rem;
+    margin: 0 auto;
+    // padding-top: 0.5rem;
+    padding: 0.5rem 2rem 0 2rem;
 }
 
 .top-bar {
-	.name {
-		.fa {
-			color: $blue;
-			font-size: 2rem;
-			vertical-align: middle;
-			margin-right: 0.5rem;
-		}
-	}
+    .name {
+        .fa {
+            color: $blue;
+            font-size: 2rem;
+            vertical-align: middle;
+            margin-right: 0.5rem;
+        }
 
-	.top-bar-section {
-		.fa {
-			font-size: 1.2rem;
-			vertical-align: -0.05rem;
-			margin-right: 0.3rem;
-			@include opacity(0.8);
-		}
+        h1 {
+            font-weight: $topbar-title-weight;
+            color: $topbar-link-color;
+            width: auto;
+            display: block;
+            padding: 0 $topbar-height / 3;
+        }
+    }
 
-		a:hover {
-			.fa {
-				color: $blue;
-				@include opacity(1);
-			}
-		}
-	}
+    .top-bar-section {
+        .fa {
+            font-size: 1.2rem;
+            vertical-align: -0.05rem;
+            margin-right: 0.3rem;
+            @include opacity(0.8);
+        }
+
+        a:hover {
+            .fa {
+                color: $blue;
+                @include opacity(1);
+            }
+        }
+    }
 }
 
 a:focus {
-	outline: 0 none;
+    outline: 0 none;
 }
 
 .button {
-	.fa {
-		margin-right: 0.7rem;
-		font-size: 1.5rem;
-		vertical-align: -0.1rem;
-	}
+    .fa {
+        margin-right: 0.7rem;
+        font-size: 1.5rem;
+        vertical-align: -0.1rem;
+    }
 } 
 
 .button.tiny {
-	.fa {
-		margin-right: 0.5rem;
-		margin-left: 0rem;
-		font-size: 1.1rem;
-	}
+    .fa {
+        margin-right: 0.5rem;
+        margin-left: 0rem;
+        font-size: 1.1rem;
+    }
 }
 
 .button-group.radius {
-	.button {
-		width: 100%;
+    .button {
+        width: 100%;
 
-		@media #{$small-only} {
-			border-radius: $button-radius;
-		}
-	}
+        @media #{$small-only} {
+            border-radius: $button-radius;
+        }
+    }
 }
 
 .muted {
-	color: $dark-grey;
+    color: $dark-grey;
 }
 
 .feed {
-	li {
-		padding: 0.6rem 0;
-		display: table;
-		border-bottom: 1px solid $grey;
+    li {
+        padding: 0.6rem 0;
+        display: table;
+        border-bottom: 1px solid $grey;
 
-		&:last-of-type {
-			border-bottom-width: 0;
-		}
+        &:last-of-type {
+            border-bottom-width: 0;
+        }
 
-		div {
-			height: 3rem;
-			float: none !important;
-			display: table-cell;
-			vertical-align: middle;
-		}
-	}
+        div {
+            height: 3rem;
+            float: none !important;
+            display: table-cell;
+            vertical-align: middle;
+        }
+    }
 
-	.content {
-		width: 100%;
-	}
+    .content {
+        width: 100%;
+    }
 }
 
 .fa.round {
-	border: 3px solid $grey;
-	background-color: #FFF;
-	padding: 0.6em;
-	@include border-radius(50%);
+    border: 3px solid $grey;
+    background-color: #FFF;
+    padding: 0.6em;
+    @include border-radius(50%);
 }
 
 .panel.success {
-	color: $success-panel-font-color;
-	background-color: $success-panel-bg;
-	border-color: scale-color($success-panel-bg, $lightness: $panel-function-factor);
+    color: $success-panel-font-color;
+    background-color: $success-panel-bg;
+    border-color: scale-color($success-panel-bg, $lightness: $panel-function-factor);
 
-	p {
-		color: $success-panel-font-color;
-	}
+    p {
+        color: $success-panel-font-color;
+    }
 }
 
 .panel.error {
-	color: $error-panel-font-color;
-	background-color: $error-panel-bg;
-	border-color: scale-color($error-panel-bg, $lightness: $panel-function-factor);
+    color: $error-panel-font-color;
+    background-color: $error-panel-bg;
+    border-color: scale-color($error-panel-bg, $lightness: $panel-function-factor);
 
-	p {
-		color: $error-panel-font-color;
-	}
+    p {
+        color: $error-panel-font-color;
+    }
 }
 
 .panel.information {
-	color: $information-panel-font-color;
-	background-color: $information-panel-bg;
-	border-color: scale-color($information-panel-bg, $lightness: $panel-function-factor);
+    color: $information-panel-font-color;
+    background-color: $information-panel-bg;
+    border-color: scale-color($information-panel-bg, $lightness: $panel-function-factor);
 
-	p {
-		color: $information-panel-font-color;
-	}
+    p {
+        color: $information-panel-font-color;
+    }
 }
 
 .tabs {
-	dd.active {
-		border: 0px solid $tabs-navigation-bg-color;
-		border-top-width: 1px;
+    dd.active {
+        border: 0px solid $tabs-navigation-bg-color;
+        border-top-width: 1px;
 
-		&:first-child {
-			border-left-width: 1px;
-		}
+        &:first-child {
+            border-left-width: 1px;
+        }
 
-		&:last-child {
-			border-right-width: 1px;
-		}
-	}
+        &:last-child {
+            border-right-width: 1px;
+        }
+    }
 }
