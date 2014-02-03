@@ -48,16 +48,30 @@
 <table class="column">
 	<thead>
 		<tr class="row">
-			<th class="small-3 medium-3 columns">Date</th>
-			<th class="small-6 medium-7 columns">Commit</th>
-			<th class="small-3 medium-2 columns">User</th>
+			<th class="small-1 text-center">Status</th>
+			<th class="small-2">Date</th>
+			<th class="small-6">Commit</th>
+			<th class="small-3">User</th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr class="row">
-			<td class="small-3 medium-3 columns">11/11/2011 11:11:11</td>
-			<td class="small-6 medium-7 columns">This is the commit message</td>
-			<td class="small-3 medium-2 columns">
+			<td>
+				<span class="label success radius column">Success</span>
+			</td>
+			<td>11/11/2011 11:11:11</td>
+			<td>This is the commit message</td>
+			<td>
+				<a href="">User</a>
+			</td>
+		</tr>
+		<tr class="row">
+			<td>
+				<span class="label alert radius column">Error</span>
+			</td>
+			<td>11/11/2011 11:11:11</td>
+			<td>This is the commit message</td>
+			<td>
 				<a href="">User</a>
 			</td>
 		</tr>

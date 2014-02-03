@@ -2,6 +2,9 @@
 
 @import "../bower_components/foundation/scss/normalize";
 
+$rem-base: 16px;
+@import "../bower_components/foundation/scss/foundation/components/functions";
+
 $body-font-family: "Open Sans", Arial, sans-serif;
 $topbar-title-font-size: 1.3rem;
 $topbar-link-font-size: 1rem;
@@ -10,6 +13,7 @@ $topbar-breakpoint: 840px;
 $button-font-tny: 0.9rem;
 $row-width: 100%;
 $tabs-content-margin-bottom: 0;
+$label-padding: rem-calc(4 8);
 @import "../bower_components/foundation/scss/foundation";
 
 $fa-font-path: "../../font-awesome/fonts";
