@@ -140,6 +140,24 @@ class UserController
         ));
     }
 
+    public function actionDelete(User $user, Application $app)
+    {
+        $data = array(
+            'user' => $user
+        );
+
+        return $app['blade']->make('user.delete', $data);
+    }
+
+    public function actionProcessDelete(User $user, Application $app)
+    {
+        $user->delete();
+
+        return $app->redirect('user.list', array(
+            'successMessage' => 'User successfully deleted'
+        ));
+    }
+
     public function actionLogin(Application $app)
     {
         $data = array(

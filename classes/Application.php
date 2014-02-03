@@ -39,6 +39,11 @@ class Application extends \Silex\Application
         return $this['url_generator']->generate($route, $parameters, UrlGeneratorInterface::ABSOLUTE_URL);
     }
 
+    public function back()
+    {
+        return $this['request']->headers->get('referer');
+    }
+
     public function redirect($route, $data = array(), $status = 302)
     {
         $this->setRedirectData($data);

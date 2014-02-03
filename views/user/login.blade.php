@@ -12,7 +12,7 @@ Login
 
 		<h3>Please login</h3>
 
-		<div class="panel">
+		<div class="panel radius">
 			<input type="text" name="email" placeholder="Email" value="{{{ $app->oldValue('email') ?: '' }}}">
 			<input type="password" name="password" placeholder="Password">
 

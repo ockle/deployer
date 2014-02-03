@@ -71,6 +71,27 @@ $dark-blue-hover: #00BAFF; */
     }
 }
 
+a.action {
+    font-size: 1.1rem;
+    padding: 0 5px;
+}
+
+a.warning {
+    color: $warning-color;
+
+    &:hover {
+        color: darken($warning-color, $button-function-factor);
+    }
+}
+
+a.alert {
+    color: $alert-color;
+
+    &:hover {
+        color: darken($alert-color, $button-function-factor);
+    }
+}
+
 a:focus {
     outline: 0 none;
 }

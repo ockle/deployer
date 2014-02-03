@@ -13,18 +13,25 @@ Users
 <table class="column">
 	<thead>
 		<tr>
-			<th>Name</th>
-			<th>Email</th>
-			<th>Column 3</th>
+			<th class="small-5">Name</th>
+			<th class="small-5">Email</th>
+			<th class="small-2 text-center">Actions</th>
 		</tr>
 	</thead>
 
 	<tbody>
 		@foreach ($users as $user)
 		<tr>
-			<td><a href="{{ $app->path('user.edit', array('user' => $user->id)) }}">{{ $user->first_name }} {{ $user->last_name }}</a></td>
+			<td>{{ $user->first_name }} {{ $user->last_name }}</td>
 			<td>{{ $user->email }}</td>
-			<td>Cell 3</td>
+			<td class="text-center">
+				<a href="{{ $app->path('user.edit', array('user' => $user->id)) }}" class="action">
+					<i class="fa fa-pencil" title="Edit"></i>
+				</a>
+				<a href="{{ $app->path('user.delete', array('user' => $user->id)) }}" class="action alert">
+					<i class="fa fa-ban" title="Delete"></i>
+				</a>
+			</td>
 		</tr>
 		@endforeach
 	</tbody>

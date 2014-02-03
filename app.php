@@ -134,6 +134,20 @@ $app->post('/user/{user}/edit', 'Deployer\Controller\UserController::actionProce
     ->convert('user', $userProvider);
 
 /**
+ * Delete a user
+ */
+$app->get('/user/{user}/delete', 'Deployer\Controller\UserController::actionDelete')
+    ->assert('user', '\d+')
+    ->before($loggedIn)
+    ->convert('user', $userProvider)
+    ->bind('user.delete');
+
+$app->post('/user/{user}/delete', 'Deployer\Controller\UserController::actionProcessDelete')
+    ->assert('user', '\d+')
+    ->before($loggedIn)
+    ->convert('user', $userProvider);
+
+/**
  * Login
  */
 $app->get('/login', 'Deployer\Controller\UserController::actionLogin')
@@ -152,17 +166,6 @@ $app->get('/logout', 'Deployer\Controller\UserController::actionLogout')
 
 $app->post('/logout', 'Deployer\Controller\UserController::actionProcessLogout')
     ->before($loggedIn);
-
-/**
- * Display account
- */
-$app->get('/account', function() use ($app) {
-    $data = array(
-    );
-
-    return $app['blade']->make('account', $data);
-})
-->bind('account');
 
 /**
  * Handle the POST hook
