@@ -1,6 +1,6 @@
 @if (isset($errorMessages) && !empty($errorMessages))
-<div class="error panel radius">
-	<p>The following errors were encountered:</p>
+<div class="alert-box alert radius" data-alert>
+	The following errors were encountered:
 
 	<ul>
 		@foreach ($errorMessages as $message)
@@ -11,13 +11,15 @@
 @endif
 
 @if (isset($errorMessage))
-<div class="error panel radius">
-	<p>{{ $errorMessage }}</p>
+<div class="alert-box alert radius" data-alert>
+	{{ $errorMessage }}
+	<a href="#" class="close">&times;</a>
 </div>
 @endif
 
 @if (isset($successMessage))
-<div class="success panel radius">
-	<p>{{ $successMessage }}</p>
+<div class="alert-box success radius" data-alert>
+	{{ $successMessage }}
+	<a href="#" class="close">&times;</a>
 </div>
 @endif
