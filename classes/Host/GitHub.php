@@ -13,6 +13,11 @@ class GitHub implements HostInterface
 		$this->payload = $request->request->get('payload');
 	}
 
+	public function domainName()
+	{
+		return 'github.com';
+	}
+
 	public function getPusher()
 	{
 		return $payload['pusher']['name'];

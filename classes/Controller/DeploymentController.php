@@ -10,7 +10,7 @@ use Symfony\Component\Process\Process;
 
 class DeploymentController
 {
-    function actionHook($hash, Application $app)
+    public function actionHook($hash, Application $app)
     {
         // Find project from hash
         $project = Project::where('hash', '=', $hash)->first();

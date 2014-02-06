@@ -19,7 +19,7 @@
 	</div>
 
 	<div class="small-12 medium-6 columns">
-		<dt>Deployment type</dt>
+		<dt>Deployment trigger</dt>
 		<dd><i class="fa fa-cogs round"></i> Automatic</dd>
 
 		<dt>Directory</dt>
@@ -39,7 +39,7 @@
 		<button class="large success button"><i class="fa fa-download"></i> Deploy</button>
 	</li>
 	<li class="small-12 medium-6">
-		<button class="large button"><i class="fa fa-cog"></i> Settings</button>
+		<a href="{{ $app->path('project.edit', array('project' => $project->id)) }}" class="large button"><i class="fa fa-cog"></i> Settings</a>
 	</li>
 </ul>
 

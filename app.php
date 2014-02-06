@@ -103,6 +103,13 @@ $app->get('/project/add', 'Deployer\Controller\ProjectController::actionAdd')
     ->bind('project.add');
 
 /**
+ * Add a project
+ */
+$app->get('/project/edit', 'Deployer\Controller\ProjectController::actionEdit')
+    ->before($loggedIn)
+    ->bind('project.edit');
+
+/**
  * Display users
  */
 $app->get('/users', 'Deployer\Controller\UserController::actionList')

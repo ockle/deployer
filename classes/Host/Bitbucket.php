@@ -13,6 +13,11 @@ class Bitbucket implements HostInterface
 		$this->payload = $request->request->get('payload');
 	}
 
+	public function domainName()
+	{
+		return 'bitbucket.org';
+	}
+
 	public function getPusher()
 	{
 		return $payload['pusher'];

@@ -30,7 +30,7 @@ class ProjectController
     public function actionAdd(Application $app)
     {
         $data = array(
-            'hosts' => array_keys($app['config']['hosts'])
+            'hash' => md5(microtime())
         );
 
         return $app['blade']->make('project.add', $data);

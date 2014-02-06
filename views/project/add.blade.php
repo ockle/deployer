@@ -7,16 +7,27 @@ Add a project
 @section('content')
 <h2>Add a project</h2>
 
-<form>
+<form action="" method="post">
 	<label>Name</label>
-	<input type="text">
+	<input type="text" name="name">
 
-	<label>Host</label>
-	<select>
-		@foreach($hosts as $host)
-		<option>{{ $host }}</option>
-		@endforeach
-	</select>
+	<label>Directory</label>
+	<input type="text" name="directory">
+
+	<label>Repository URL</label>
+	<input type="text" name="repository">
+
+	<label>Branch</label>
+	<input type="text" name="branch">
+
+	<input type="radio" name="trigger" value="manual">
+	<label>Manual</label>
+	<input type="radio" name="trigger" value="automatic">
+	<label>Automatic</label>
+
+	<label>Deployment hook URL</label>
+	<input type="text" value="{{ $app->url('deployment.hook', array('hash' => $hash)) }}" readonly>
+	<input type="hidden" name="hash" value="{{ $hash }}">
 
 	<button type="submit" class="button tiny radius"><i class="fa fa-check"></i>Submit</button>
 
