@@ -23,7 +23,9 @@ $app->register(new Deployer\Provider\CapsuleServiceProvider, array(
     'capsule.connection' => $app['config']['database']
 ));
 
-$app->register(new Deployer\Provider\ValidatorServiceProvider);
+$app->register(new Deployer\Provider\ValidatorServiceProvider, array(
+    'validator.class' => 'Deployer\Validator'
+));
 
 $app->register(new Deployer\Provider\SentryServiceProvider, array(
     'sentry.providers' => array(
