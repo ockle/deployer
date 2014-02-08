@@ -14,6 +14,11 @@ class Deployment extends \Illuminate\Database\Eloquent\Model
 		return $this->belongsTo('Deployer\Model\User');
 	}
 
+	public function scopeMostRecentFirst($query)
+	{
+		return $query->orderBy('created_at', 'desc');
+	}
+
 	public function error($message)
 	{
 		$this->message = $message;

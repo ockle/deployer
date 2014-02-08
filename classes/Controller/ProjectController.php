@@ -9,7 +9,7 @@ class ProjectController
 {
     public function actionList(Application $app)
     {
-        $projects = Project::all();
+        $projects = Project::with('lastDeployment')->get();
 
         $data = array(
             'projects' => $projects

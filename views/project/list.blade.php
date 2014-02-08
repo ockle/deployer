@@ -12,18 +12,18 @@ Projects
 <table class="column">
 	<thead>
 		<tr class="row">
-			<th class="small-4 columns">Name</th>
-			<th class="small-4 columns">Deployment Destination</th>
-			<th class="small-4 columns">Host</th>
+			<th class="small-4">Name</th>
+			<th class="small-4">Directory</th>
+			<th class="small-4">Last deployed</th>
 		</tr>
 	</thead>
 
 	<tbody>
 		@foreach ($projects as $project)
 		<tr class="row">
-			<td class="small-4 columns"><a href="{{ $app->path('project.view', array('project' => $project->id)) }}">{{ $project->name }}</a></td>
-			<td class="small-4 columns">/var/www/site.com/</td>
-			<td class="small-4 columns">Bitbucket</td>
+			<td class="small-4"><a href="{{ $app->path('project.view', array('project' => $project->id)) }}">{{ $project->name }}</a></td>
+			<td class="small-4">{{{ $project->directory }}}</td>
+			<td class="small-4">{{ (!is_null($project->lastDeployment)) ? $project->lastDeployment->created_at->format('d/m/Y H:i:s') : 'Never' }}</td>
 		</tr>
 		@endforeach
 	</tbody>

@@ -31,6 +31,11 @@ class Project extends \Illuminate\Database\Eloquent\Model
 
 	public function deployments()
 	{
-		return $this->hasMany('Deployer\Model\Deployment');
+		return $this->hasMany('Deployer\Model\Deployment')->mostRecentFirst();
+	}
+
+	public function lastDeployment()
+	{
+		return $this->hasOne('Deployer\Model\Deployment')->mostRecentFirst()->take(1);
 	}
 }
