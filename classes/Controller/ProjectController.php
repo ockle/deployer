@@ -20,6 +20,8 @@ class ProjectController
 
     public function actionView(Project $project, Application $app)
     {
+        $project->load('deployments.user');
+
         $data = array(
             'project' => $project
         );

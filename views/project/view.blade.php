@@ -10,28 +10,34 @@
 <dl class="panel radius row">
 	<div class="small-12 medium-6 columns">
 		<dt>Last deployed</dt>
-		<dd>1 hour ago by <a href="">User</a></dd>
+		<dd>
+			@if (!$project->deployments->isEmpty())
+			<span class="has-tip" title="{{ $project->deployments[0]->created_at->format('d/m/Y H:i:s') }}" data-tooltip>{{ $project->deployments[0]->created_at->diffForHumans() }}</span> by <a href="{{ $app->path('user.edit', array('user' => $project->deployments[0]->user->id)) }}">{{{ $project->deployments[0]->user->first_name }}} {{{ $project->deployments[0]->user->last_name }}}</a>
+			@else
+			Never
+			@endif
+		</dd>
 
 		<dt>Respository</dt>
 		<dd>
-			<a href="">View on Bitbucket</a>
+			<a href="{{ $project->repository }}">View on {{ $project->host }}</a> (branch: {{{ $project->branch }}})
 		</dd>
 	</div>
 
 	<div class="small-12 medium-6 columns">
 		<dt>Deployment trigger</dt>
-		<dd><i class="fa fa-cogs round"></i> Automatic</dd>
+		<dd><i class="fa {{ ($project->trigger == 'manual') ? 'fa-wrench' : 'fa-cogs' }} round"></i> {{ ucfirst($project->trigger) }}</dd>
 
 		<dt>Directory</dt>
-		<dd>
-			/var/www/project.com/
-		</dd>
+		<dd>{{{ $project->directory }}}</dd>
 	</div>
 
+	@if (!$project->deployments->isEmpty())
 	<div class="small-12 columns">
 		<dt>Current commit</dt>
-		<dd>This is the commit message</dd>
+		<dd><span class="muted">[abc123]</span> This is the commit message</dd>
 	</div>
+	@endif
 </dl>
 
 <ul class="button-group radius">
@@ -45,6 +51,7 @@
 
 <h3>Deployment history</h3>
 
+@if (!$project->deployments->isEmpty())
 <table class="column">
 	<thead>
 		<tr class="row">
@@ -77,4 +84,8 @@
 		</tr>
 	</tbody>
 </table>
+@else
+<div class="alert-box info radius">This project has never been deployed</div>
+@endif
+
 @stop
