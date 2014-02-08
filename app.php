@@ -104,11 +104,15 @@ $app->get('/project/add', 'Deployer\Controller\ProjectController::actionAdd')
     ->before($loggedIn)
     ->bind('project.add');
 
+$app->post('/project/add', 'Deployer\Controller\ProjectController::actionProcessAdd')
+    ->before($loggedIn);
+
 /**
  * Add a project
  */
-$app->get('/project/edit', 'Deployer\Controller\ProjectController::actionEdit')
+$app->get('/project/{project}/edit', 'Deployer\Controller\ProjectController::actionEdit')
     ->before($loggedIn)
+    ->convert('project', $projectProvider)
     ->bind('project.edit');
 
 /**

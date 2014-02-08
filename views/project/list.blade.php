@@ -7,11 +7,7 @@ Projects
 @section('content')
 <h2>Projects</h2>
 
-@if (isset($successMessage))
-<div class="success panel radius">
-	<p>{{ $successMessage }}</p>
-</div>
-@endif
+@include('partial.success-error')
 
 <table class="column">
 	<thead>

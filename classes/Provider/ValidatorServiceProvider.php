@@ -23,10 +23,10 @@ class ValidatorServiceProvider implements ServiceProviderInterface
         }
 
         $app['validator'] = $app->protect(function($data, $rules, $messages = array(), $customAttributes = array()) use ($app) {
-            if (isset($app['validator.class'])) {
+            if (!isset($app['validator.class'])) {
                 $validator = new Validator($app['translator'], $data, $rules, $messages, $customAttributes);
             } else {
-                $validator = call_user_func($app['validator.class'], $app['translator'], $data, $rules, $messages, $customAttributes);
+                $validator = new $app['validator.class']($app, $app['translator'], $data, $rules, $messages, $customAttributes);
             }
 
             if (isset($app['validator.presence_verifier'])) {

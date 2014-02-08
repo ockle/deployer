@@ -38,10 +38,10 @@ class UserController
         if ($validation->passes()) {
             try {
                 $user = $app['sentry']->createUser(array(
-                    'email' => $input['email'],
-                    'password' => $input['password'],
+                    'email'      => $input['email'],
+                    'password'   => $input['password'],
                     'first_name' => $input['first_name'],
-                    'last_name' => $input['last_name']
+                    'last_name'  => $input['last_name']
                 ));
 
                 foreach ($input['hosts'] as $hostName => $usernameValue) {

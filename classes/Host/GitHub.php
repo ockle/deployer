@@ -13,7 +13,7 @@ class GitHub implements HostInterface
 		$this->payload = $request->request->get('payload');
 	}
 
-	public function domainName()
+	public static function domainName()
 	{
 		return 'github.com';
 	}

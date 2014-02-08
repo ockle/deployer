@@ -8,7 +8,7 @@ interface HostInterface
 {
 	public function __construct(Request $request);
 
-	public function domainName();
+	public static function domainName();
 
 	public function getPusher();
 

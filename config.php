@@ -7,7 +7,7 @@ return array(
         'password' => ''
     ),
     'hosts' => array(
-        'Bitbucket' => 'Deployer\Model\Host\Bitbucket',
-        'GitHub'    => 'Deployer\Model\Host\GitHub'
+        'Bitbucket' => 'Deployer\Host\Bitbucket',
+        'GitHub'    => 'Deployer\Host\GitHub'
     )
 );

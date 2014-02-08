@@ -27,7 +27,7 @@ class DeploymentController
         // Check pushed branch is the branch that the project deploys from
         $branch = $host->getBranch();
 
-        if ($project->branch_name != $branch) {
+        if ($project->branch != $branch) {
             $app->abort(404);
         }
 
@@ -50,7 +50,7 @@ class DeploymentController
         // Start deployment
         chdir($project->directory);
 
-        $fetch = new Process('git fetch origin ' . $project->branch_name);
+        $fetch = new Process('git fetch origin ' . $project->branch);
         $fetch->run();
 
         if (!$fetch->isSuccessful()) {
