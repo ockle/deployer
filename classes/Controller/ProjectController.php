@@ -107,4 +107,22 @@ class ProjectController
             'oldInput'      => $app['request']->request->all()
         ));
     }
+
+    public function actionDelete(Project $project, Application $app)
+    {
+        $data = array(
+            'project' => $project
+        );
+
+        return $app['blade']->make('project.delete', $data);
+    }
+
+    public function actionProcessDelete(Project $project, Application $app)
+    {
+        $project->delete();
+
+        return $app->redirect('project.list', array(
+            'successMessage' => 'Project successfully deleted'
+        ));
+    }
 }

@@ -120,6 +120,20 @@ $app->post('/project/{project}/edit', 'Deployer\Controller\ProjectController::ac
     ->before($loggedIn);
 
 /**
+ * Delete a project
+ */
+$app->get('/project/{project}/delete', 'Deployer\Controller\ProjectController::actionDelete')
+    ->assert('project', '\d+')
+    ->before($loggedIn)
+    ->convert('project', $projectProvider)
+    ->bind('project.delete');
+
+$app->post('/project/{project}/delete', 'Deployer\Controller\ProjectController::actionProcessDelete')
+    ->assert('project', '\d+')
+    ->before($loggedIn)
+    ->convert('project', $projectProvider);
+
+/**
  * Display users
  */
 $app->get('/users', 'Deployer\Controller\UserController::actionList')

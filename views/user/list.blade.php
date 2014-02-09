@@ -25,11 +25,11 @@ Users
 			<td>{{ $user->first_name }} {{ $user->last_name }}</td>
 			<td>{{ $user->email }}</td>
 			<td class="text-center">
-				<a href="{{ $app->path('user.edit', array('user' => $user->id)) }}" class="action">
-					<i class="fa fa-pencil" title="Edit"></i>
+				<a href="{{ $app->path('user.edit', array('user' => $user->id)) }}" class="action" title="Edit">
+					<i class="fa fa-pencil"></i>
 				</a>
-				<a href="{{ $app->path('user.delete', array('user' => $user->id)) }}" class="action alert">
-					<i class="fa fa-ban" title="Delete"></i>
+				<a href="{{ $app->path('user.delete', array('user' => $user->id)) }}" class="action alert" title="Delete">
+					<i class="fa fa-ban"></i>
 				</a>
 			</td>
 		</tr>
