@@ -10,25 +10,25 @@
 @include('partial.success-error')
 
 <form action="" method="post">
-	<label>Name</label>
-	<input type="text" name="name" value="{{{ $app->oldValue('name') ?: (isset($project->name) ? $project->name : '') }}}">
+	<label for="project_name">Name</label>
+	<input type="text" name="name" value="{{{ $app->oldValue('name') ?: (isset($project->name) ? $project->name : '') }}}" id="project_name">
 
-	<label>Directory</label>
-	<input type="text" name="directory" value="{{{ $app->oldValue('directory') ?: (isset($project->directory) ? $project->directory : '') }}}">
+	<label for="project_directory">Directory</label>
+	<input type="text" name="directory" value="{{{ $app->oldValue('directory') ?: (isset($project->directory) ? $project->directory : '') }}}" id="project_directory">
 
-	<label>Repository URL</label>
-	<input type="text" name="repository" value="{{{ $app->oldValue('repository') ?: (isset($project->repository) ? $project->repository : '') }}}">
+	<label for="project_repository">Repository URL</label>
+	<input type="text" name="repository" value="{{{ $app->oldValue('repository') ?: (isset($project->repository) ? $project->repository : '') }}}" id="project_repository">
 
-	<label>Branch</label>
-	<input type="text" name="branch" value="{{{ $app->oldValue('branch') ?: (isset($project->branch) ? $project->branch : '') }}}">
+	<label for="project_branch">Branch</label>
+	<input type="text" name="branch" value="{{{ $app->oldValue('branch') ?: (isset($project->branch) ? $project->branch : '') }}}" id="project_branch">
 
-	<input type="radio" name="trigger" value="manual" {{ ($app->oldValue('trigger') == 'manual') ? 'checked' : (((isset($project->trigger) && ($project->trigger == 'manual')) || (!isset($project->trigger))) ? 'checked' : '') }}>
-	<label>Manual</label>
-	<input type="radio" name="trigger" value="automatic" {{ ($app->oldValue('trigger') == 'automatic') ? 'checked' : ((isset($project->trigger) && ($project->trigger == 'automatic')) ? 'checked' : '') }}>
-	<label>Automatic</label>
+	<input type="radio" name="trigger" value="manual" id="project_trigger-manual" {{ ($app->oldValue('trigger') == 'manual') ? 'checked' : (((isset($project->trigger) && ($project->trigger == 'manual')) || (!isset($project->trigger))) ? 'checked' : '') }}>
+	<label for="project_trigger-manual">Manual</label>
+	<input type="radio" name="trigger" value="automatic" id="project_trigger-automatic" {{ ($app->oldValue('trigger') == 'automatic') ? 'checked' : ((isset($project->trigger) && ($project->trigger == 'automatic')) ? 'checked' : '') }}>
+	<label for="project_trigger-automatic">Automatic</label>
 
-	<label>Deployment hook URL</label>
-	<input type="text" value="{{{ $app->url('deployment.hook', array('hash' => $app->oldValue('hash') ?: (isset($hash) ? $hash : ''))) }}}" readonly>
+	<label for="project_hook">Deployment hook URL</label>
+	<input type="text" value="{{{ $app->url('deployment.hook', array('hash' => $app->oldValue('hash') ?: (isset($hash) ? $hash : ''))) }}}" id="project_hook" readonly>
 	<input type="hidden" name="hash" value="{{{ $app->oldValue('hash') ?: (isset($hash) ? $hash : '') }}}">
 
 	<input type="hidden" name="type" value="{{ $type }}">
