@@ -108,12 +108,16 @@ $app->post('/project/add', 'Deployer\Controller\ProjectController::actionProcess
     ->before($loggedIn);
 
 /**
- * Add a project
+ * Edit a project
  */
 $app->get('/project/{project}/edit', 'Deployer\Controller\ProjectController::actionEdit')
     ->before($loggedIn)
     ->convert('project', $projectProvider)
     ->bind('project.edit');
+
+$app->post('/project/{project}/edit', 'Deployer\Controller\ProjectController::actionProcessEdit')
+    ->convert('project', $projectProvider)
+    ->before($loggedIn);
 
 /**
  * Display users

@@ -7,6 +7,8 @@
 @section('content')
 <h2>{{ $project->name }}</h2>
 
+@include('partial.success-error')
+
 <dl class="panel radius row">
 	<div class="small-12 medium-6 columns">
 		<dt>Last deployed</dt>

@@ -15,7 +15,8 @@ class DeploymentController
         // Find project from hash
         $project = Project::where('hash', '=', $hash)->first();
 
-        if (is_null($project)) {
+        // Check that project exists and is set to be automatically triggered to deploy
+        if ((is_null($project)) || ($project->trigger != 'automatic')) {
             $app->abort(404);
         }
 

@@ -1,11 +1,11 @@
 @extends('layout')
 
 @section('title')
-Add a project
+{{ ucfirst($type) }} a project
 @stop
 
 @section('content')
-<h2>Add a project</h2>
+<h2>{{ ucfirst($type) }} a project</h2>
 
 @include('partial.success-error')
 
@@ -30,6 +30,8 @@ Add a project
 	<label>Deployment hook URL</label>
 	<input type="text" value="{{{ $app->url('deployment.hook', array('hash' => $app->oldValue('hash') ?: (isset($hash) ? $hash : ''))) }}}" readonly>
 	<input type="hidden" name="hash" value="{{{ $app->oldValue('hash') ?: (isset($hash) ? $hash : '') }}}">
+
+	<input type="hidden" name="type" value="{{ $type }}">
 
 	<button type="submit" class="button tiny radius"><i class="fa fa-check"></i>Submit</button>
 

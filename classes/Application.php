@@ -48,7 +48,13 @@ class Application extends \Silex\Application
     {
         $this->setRedirectData($data);
 
-        return parent::redirect($this->path($route), $status);
+        if (is_array($route)) {
+            $path = $this->path($route[0], $route[1]);
+        } else {
+            $path = $this->path($route);
+        }
+
+        return parent::redirect($path, $status);
     }
 
     public function forward($route, $data = array())
