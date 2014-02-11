@@ -6,34 +6,34 @@ use Symfony\Component\HttpFoundation\Request;
 
 class GitHub implements HostInterface
 {
-	public $payload;
+    public $payload;
 
-	public function __construct(Request $request)
-	{
-		$this->payload = $request->request->get('payload');
-	}
+    public function __construct(Request $request)
+    {
+        $this->payload = $request->request->get('payload');
+    }
 
-	public static function domainName()
-	{
-		return 'github.com';
-	}
+    public static function domainName()
+    {
+        return 'github.com';
+    }
 
-	public function getPusher()
-	{
-		return $payload['pusher']['name'];
-	}
+    public function getPusher()
+    {
+        return $payload['pusher']['name'];
+    }
 
-	public function getBranch()
-	{
-		$ref = $payload['ref'];
+    public function getBranch()
+    {
+        $ref = $payload['ref'];
 
-		return substr($ref, 11); // Take off the "refs/heads/" and you get the branch name
-	}
+        return substr($ref, 11); // Take off the "refs/heads/" and you get the branch name
+    }
 
-	public function getLastCommitMessage()
-	{
-		$lastCommit = end($payload['commits']);
+    public function getLastCommitMessage()
+    {
+        $lastCommit = end($payload['commits']);
 
-		return $lastCommit['message'];
-	}
+        return $lastCommit['message'];
+    }
 }

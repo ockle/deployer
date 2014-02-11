@@ -6,39 +6,39 @@ use Symfony\Component\HttpFoundation\Request;
 
 class Bitbucket implements HostInterface
 {
-	public $payload;
+    public $payload;
 
-	public function __construct(Request $request)
-	{
-		$this->payload = $request->request->get('payload');
-	}
+    public function __construct(Request $request)
+    {
+        $this->payload = $request->request->get('payload');
+    }
 
-	public static function domainName()
-	{
-		return 'bitbucket.org';
-	}
+    public static function domainName()
+    {
+        return 'bitbucket.org';
+    }
 
-	public function getPusher()
-	{
-		return $payload['pusher'];
-	}
+    public function getPusher()
+    {
+        return $payload['pusher'];
+    }
 
-	public function getBranch()
-	{
-		$lastCommit = $this->getLastCommit();
+    public function getBranch()
+    {
+        $lastCommit = $this->getLastCommit();
 
-		return $lastCommit['branch'];
-	}
+        return $lastCommit['branch'];
+    }
 
-	public function getLastCommitMessage()
-	{
-		$lastCommit = $this->getLastCommit();
+    public function getLastCommitMessage()
+    {
+        $lastCommit = $this->getLastCommit();
 
-		return $lastCommit['message'];
-	}
+        return $lastCommit['message'];
+    }
 
-	protected function getLastCommit()
-	{
-		return end($payload['commits']);
-	}
+    protected function getLastCommit()
+    {
+        return end($payload['commits']);
+    }
 }

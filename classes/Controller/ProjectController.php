@@ -32,8 +32,9 @@ class ProjectController
     public function actionAdd(Application $app)
     {
         $data = array(
-            'type' => 'add',
-            'hash' => md5(microtime())
+            'type'  => 'add',
+            'hosts' => array_keys($app['config']['hosts']),
+            'hash'  => md5(microtime())
         ) + $app->getRedirectData();
 
         return $app['blade']->make('project.add-edit', $data);
@@ -50,11 +51,12 @@ class ProjectController
 
             $project->name = $input['name'];
             $project->directory = $input['directory'];
+            $project->host = $input['host'];
+            $project->remote = $input['remote'];
             $project->repository = $input['repository'];
             $project->branch = $input['branch'];
             $project->trigger = $input['trigger'];
             $project->hash = $input['hash'];
-            $project->host = $validation->information['repositoryHostName'];
 
             $project->save();
 
@@ -74,6 +76,7 @@ class ProjectController
         $data = array(
             'type'    => 'edit',
             'project' => $project,
+            'hosts'   => array_keys($app['config']['hosts']),
             'hash'    => $project->hash
         ) + $app->getRedirectData();
 
@@ -89,11 +92,12 @@ class ProjectController
         if ($validation->passes()) {
             $project->name = $input['name'];
             $project->directory = $input['directory'];
+            $project->host = $input['host'];
+            $project->remote = $input['remote'];
             $project->repository = $input['repository'];
             $project->branch = $input['branch'];
             $project->trigger = $input['trigger'];
             $project->hash = $input['hash'];
-            $project->host = $validation->information['repositoryHostName'];
 
             $project->save();
 

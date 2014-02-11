@@ -16,7 +16,17 @@
 	<label for="project_directory">Directory</label>
 	<input type="text" name="directory" value="{{{ $app->oldValue('directory') ?: (isset($project->directory) ? $project->directory : '') }}}" id="project_directory">
 
-	<label for="project_repository">Repository URL</label>
+	<label for"project_host">Host</label>
+	<select name="host" id="project_host">
+		@foreach($hosts as $host)
+		<option {{ ($app->oldValue('host') && ($app->oldValue('host') == $host)) ? 'selected' : ((isset($project->host) && ($project->host == $host)) ? 'selected' : '') }}>{{ $host }}</option>
+		@endforeach
+	</select>
+
+	<label for="project_remote">Remote</label>
+	<input type="text" name="remote" value="{{{ $app->oldValue('remote') ?: (isset($project->remote) ? $project->remote : '') }}}" id="project_remote">
+
+	<label for="project_repository">Repository</label>
 	<input type="text" name="repository" value="{{{ $app->oldValue('repository') ?: (isset($project->repository) ? $project->repository : '') }}}" id="project_repository">
 
 	<label for="project_branch">Branch</label>
