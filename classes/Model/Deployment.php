@@ -34,7 +34,9 @@ class Deployment extends \Illuminate\Database\Eloquent\Model
             return false;
         }
 
-        $fetch = new Process('git fetch ' . $project->remote . ' ' . $project->branch);
+        $startTime = microtime(true);
+
+        $fetch = new Process('git fetch ' . $project->remote);
         $fetch->run();
 
         if (!$fetch->isSuccessful()) {
@@ -51,6 +53,8 @@ class Deployment extends \Illuminate\Database\Eloquent\Model
 
             return false;
         }
+
+        $this->log = $log->getOutput();
 
         $reset = new Process('git reset --hard FETCH_HEAD');
         $reset->run();
@@ -70,33 +74,29 @@ class Deployment extends \Illuminate\Database\Eloquent\Model
             return false;
         }
 
+        $this->duration = ceil((microtime(true) - $startTime) * 1000);
+        $this->status = 1;
+
         $currentCommit = new Process('git show-branch --sha1-name ' . $project->branch);
         $currentCommit->run();
 
+        // This is still considered a successful deployment, as the files have been changed
         if (!$currentCommit->isSuccessful()) {
-            $this->error('Error fetching current commit: ' . $currentCommit->getErrorOutput());
-
-            return false;
+            $this->message = 'Error fetching current commit: ' . $currentCommit->getErrorOutput();
+        } else {
+            // Deployment successful
+            $this->message = 'Deployed ' . $currentCommit->getOutput();
         }
 
-        // Deployment successful
-        return $this->success($currentCommit->getOutput());
-    }
+        $this->save();
 
-    protected function success($message)
-    {
-        return $this->finish($message, 1);
+        return true;
     }
 
     protected function error($message)
     {
-        return $this->finish($message, 0);
-    }
-
-    protected function finish($message, $status)
-    {
         $this->message = $message;
-        $this->status = (int) (bool) $status;
+        $this->status = 0;
 
         return $this->save();
     }

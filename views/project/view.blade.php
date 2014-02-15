@@ -58,7 +58,7 @@
 	<thead>
 		<tr class="row">
 			<th class="small-1 text-center">Status</th>
-			<th class="small-6">Commit</th>
+			<th class="small-6">Message</th>
 			<th class="small-2">Date</th>
 			<th class="small-2">User</th>
 			<th class="small-1 text-center">Details</th>

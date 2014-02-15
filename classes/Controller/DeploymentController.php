@@ -30,6 +30,7 @@ class DeploymentController
         $user = $app['sentry']->getUser();
 
         $deployment = new Deployment;
+        $deployment->trigger = 'manual';
 
         $deployment->process($project, $user, $app);
     }
@@ -74,6 +75,7 @@ class DeploymentController
 
         // OK, all looks good, let's attempt a deployment
         $deployment = new Deployment;
+        $deployment->trigger = 'automatic';
 
         if (!$deployment->process($project, $user, $app)) {
             $app->abort(500, 'Deployment failed');
