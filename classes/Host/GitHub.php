@@ -10,7 +10,7 @@ class GitHub implements HostInterface
 
     public function __construct(Request $request)
     {
-        $this->payload = $request->request->get('payload');
+        $this->payload = json_decode($request->request->get('payload'), true);
     }
 
     public static function domainName()
@@ -20,20 +20,13 @@ class GitHub implements HostInterface
 
     public function getPusher()
     {
-        return $payload['pusher']['name'];
+        return $this->payload['pusher']['name'];
     }
 
     public function getBranch()
     {
-        $ref = $payload['ref'];
+        $ref = $this->payload['ref'];
 
         return substr($ref, 11); // Take off the "refs/heads/" and you get the branch name
-    }
-
-    public function getLastCommitMessage()
-    {
-        $lastCommit = end($payload['commits']);
-
-        return $lastCommit['message'];
     }
 }

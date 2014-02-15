@@ -10,7 +10,7 @@ class Bitbucket implements HostInterface
 
     public function __construct(Request $request)
     {
-        $this->payload = $request->request->get('payload');
+        $this->payload = json_decode($request->request->get('payload'), true);
     }
 
     public static function domainName()
@@ -20,25 +20,13 @@ class Bitbucket implements HostInterface
 
     public function getPusher()
     {
-        return $payload['pusher'];
+        return $this->payload['user'];
     }
 
     public function getBranch()
     {
-        $lastCommit = $this->getLastCommit();
+        $lastCommit = end($this->payload['commits']);
 
         return $lastCommit['branch'];
-    }
-
-    public function getLastCommitMessage()
-    {
-        $lastCommit = $this->getLastCommit();
-
-        return $lastCommit['message'];
-    }
-
-    protected function getLastCommit()
-    {
-        return end($payload['commits']);
     }
 }

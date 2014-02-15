@@ -52,6 +52,16 @@ $app['projectProvider'] = $app->protect(function($id) use ($app) {
     return $project;
 });
 
+$app['deploymentProvider'] = $app->protect(function($id) use ($app) {
+    $deployment = Deployer\Model\Deployment::find($id);
+
+    if (is_null($deployment)) {
+        $app->abort(404, 'Deployment not found');
+    }
+
+    return $deployment;
+});
+
 $app['userProvider'] = $app->protect(function($id) use ($app) {
     try {
         return $app['sentry']->findUserById($id);
@@ -199,10 +209,33 @@ $app->post('/logout', 'Deployer\Controller\UserController::actionProcessLogout')
     ->before($app['loggedIn']);
 
 /**
- * Handle the POST hook
+ * View a deployment
  */
-$app->post('/deployment/hook/{hash}', 'Deployer\Controller\DeploymentController::actionHook')
+$app->get('/deployment/{deployment}', 'Deployer\Controller\DeploymentController::actionView')
+    ->assert('deployment', '\d+')
+    ->before($app['loggedIn'])
+    ->convert('deployment', $app['deploymentProvider'])
+    ->bind('deployment.view');
+
+/**
+ * Handle a manual deployment
+ */
+$app->get('/deployment/manual/{project}', 'Deployer\Controller\DeploymentController::actionManual')
+    ->assert('project', '\d+')
+    ->before($app['loggedIn'])
+    ->convert('project', $app['projectProvider'])
+    ->bind('deployment.manual');
+
+$app->post('/deployment/manual/{project}', 'Deployer\Controller\DeploymentController::actionProcessManual')
+    ->assert('project', '\d+')
+    ->before($app['loggedIn'])
+    ->convert('project', $app['projectProvider']);
+
+/**
+ * Handle an automatic deplyment POST hook
+ */
+$app->post('/deployment/automatic/{hash}', 'Deployer\Controller\DeploymentController::actionAutomatic')
     ->assert('hash', '[a-f0-9]{32}')
-    ->bind('deployment.hook');
+    ->bind('deployment.automatic');
 
 $app->run();

@@ -38,7 +38,7 @@
 	<label for="project_trigger-automatic">Automatic</label>
 
 	<label for="project_hook">Deployment hook URL</label>
-	<input type="text" value="{{{ $app->url('deployment.hook', array('hash' => $app->oldValue('hash') ?: (isset($hash) ? $hash : ''))) }}}" id="project_hook" readonly>
+	<input type="text" value="{{{ $app->url('deployment.automatic', array('hash' => $app->oldValue('hash') ?: (isset($hash) ? $hash : ''))) }}}" id="project_hook" readonly>
 	<input type="hidden" name="hash" value="{{{ $app->oldValue('hash') ?: (isset($hash) ? $hash : '') }}}">
 
 	<input type="hidden" name="type" value="{{ $type }}">

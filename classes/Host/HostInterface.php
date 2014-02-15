@@ -13,6 +13,4 @@ interface HostInterface
     public function getPusher();
 
     public function getBranch();
-
-    public function getLastCommitMessage();
 }

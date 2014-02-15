@@ -44,7 +44,7 @@
 
 <ul class="button-group radius">
 	<li class="small-12 medium-6">
-		<button class="large success button"><i class="fa fa-download"></i> Deploy</button>
+		<a href="{{ $app->path('deployment.manual', array('project' => $project->id)) }}" class="large success button"><i class="fa fa-download"></i> Deploy</a>
 	</li>
 	<li class="small-12 medium-6">
 		<a href="{{ $app->path('project.edit', array('project' => $project->id)) }}" class="large button"><i class="fa fa-cog"></i> Settings</a>
@@ -58,9 +58,10 @@
 	<thead>
 		<tr class="row">
 			<th class="small-1 text-center">Status</th>
-			<th class="small-2">Date</th>
 			<th class="small-6">Commit</th>
-			<th class="small-3">User</th>
+			<th class="small-2">Date</th>
+			<th class="small-2">User</th>
+			<th class="small-1 text-center">Details</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -68,20 +69,26 @@
 			<td>
 				<span class="label success radius column">Success</span>
 			</td>
-			<td>11/11/2011 11:11:11</td>
 			<td>This is the commit message</td>
+			<td>11/11/2011 11:11:11</td>
 			<td>
-				<a href="">User</a>
+				<a href="">Johnathan Charleston</a>
+			</td>
+			<td class="text-center">
+				<a href="">View</a>
 			</td>
 		</tr>
 		<tr class="row">
 			<td>
 				<span class="label alert radius column">Error</span>
 			</td>
-			<td>11/11/2011 11:11:11</td>
 			<td>This is the commit message</td>
+			<td>11/11/2011 11:11:11</td>
 			<td>
 				<a href="">User</a>
+			</td>
+			<td class="text-center">
+				<a href="">View</a>
 			</td>
 		</tr>
 	</tbody>
