@@ -13,7 +13,11 @@ class DeploymentController
 {
     public function actionView(Deployment $deployment, Application $app)
     {
+        $data = array(
+            'deployment' => $deployment
+        ) + $app->getRedirectData();
 
+        return $app['blade']->make('deployment.view', $data);
     }
 
     public function actionManual(Project $project, Application $app)
@@ -32,7 +36,19 @@ class DeploymentController
         $deployment = new Deployment;
         $deployment->trigger = 'manual';
 
-        $deployment->process($project, $user, $app);
+        $deploymentStatus = $deployment->process($project, $user, $app);
+
+        if ($deploymentStatus) {
+            $alert = array(
+                'successMessage' => 'Deployment successful'
+            );
+        } else {
+            $alert = array(
+                'errorMessage' => 'Deployment failed'
+            );
+        }
+
+        return $app->redirect(array('deployment.view', array('deployment' => $deployment->id)), $alert);
     }
 
     public function actionAutomatic($hash, Application $app)

@@ -80,7 +80,7 @@
 		</tr>
 		<tr class="row">
 			<td>
-				<span class="label alert radius column">Error</span>
+				<span class="label alert radius column">Failure</span>
 			</td>
 			<td>This is the commit message</td>
 			<td>11/11/2011 11:11:11</td>
