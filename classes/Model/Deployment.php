@@ -22,6 +22,11 @@ class Deployment extends \Illuminate\Database\Eloquent\Model
         return $query->orderBy('created_at', 'desc');
     }
 
+    public function scopeSuccessful($query)
+    {
+        return $query->where('status', '=', 1);
+    }
+
     public function process(Project $project, User $user, Application $app)
     {
         $this->project()->associate($project);
@@ -85,7 +90,7 @@ class Deployment extends \Illuminate\Database\Eloquent\Model
             $this->message = 'Error fetching current commit: ' . $currentCommit->getErrorOutput();
         } else {
             // Deployment successful
-            $this->message = 'Deployed ' . $currentCommit->getOutput();
+            $this->message = $currentCommit->getOutput();
         }
 
         $this->save();

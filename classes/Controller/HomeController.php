@@ -9,7 +9,7 @@ class HomeController
 {
     public function actionView(Application $app)
     {
-        $deployments = Deployment::with(array('project', 'user'))->mostRecentFirst()->take(10)->get();
+        $deployments = Deployment::with(array('project', 'user'))->successful()->mostRecentFirst()->take(10)->get();
 
         $data = array(
             'deployments' => $deployments

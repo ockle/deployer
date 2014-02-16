@@ -9,7 +9,7 @@ class ProjectController
 {
     public function actionList(Application $app)
     {
-        $projects = Project::with('lastDeployment')->get();
+        $projects = Project::with('lastSuccessfulDeployment')->get();
 
         $data = array(
             'projects' => $projects
@@ -20,7 +20,7 @@ class ProjectController
 
     public function actionView(Project $project, Application $app)
     {
-        $project->load('deployments.user');
+        $project->load(array('lastSuccessfulDeployment', 'deployments.user'));
 
         $data = array(
             'project' => $project

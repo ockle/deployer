@@ -35,8 +35,8 @@ class Project extends \Illuminate\Database\Eloquent\Model
         return $this->hasMany('Deployer\Model\Deployment')->mostRecentFirst();
     }
 
-    public function lastDeployment()
+    public function lastSuccessfulDeployment()
     {
-        return $this->hasOne('Deployer\Model\Deployment')->mostRecentFirst()->take(1);
+        return $this->hasOne('Deployer\Model\Deployment')->successful()->mostRecentFirst()->take(1);
     }
 }

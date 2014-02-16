@@ -18,7 +18,7 @@
 
 	<label for"project_host">Host</label>
 	<select name="host" id="project_host">
-		@foreach($hosts as $host)
+		@foreach ($hosts as $host)
 		<option {{ ($app->oldValue('host') && ($app->oldValue('host') == $host)) ? 'selected' : ((isset($project->host) && ($project->host == $host)) ? 'selected' : '') }}>{{ $host }}</option>
 		@endforeach
 	</select>

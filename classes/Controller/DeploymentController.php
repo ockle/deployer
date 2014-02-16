@@ -97,6 +97,6 @@ class DeploymentController
             $app->abort(500, 'Deployment failed');
         }
 
-        return 'Deployment was a success';
+        return 'Deployment successful';
     }
 }

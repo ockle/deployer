@@ -34,10 +34,10 @@
 		<dd>{{{ $project->directory }}}</dd>
 	</div>
 
-	@if (!$project->deployments->isEmpty())
+	@if (!is_null($project->lastSuccessfulDeployment))
 	<div class="small-12 columns">
 		<dt>Current commit</dt>
-		<dd><span class="muted">[abc123]</span> This is the commit message</dd>
+		<dd>{{{ $project->lastSuccessfulDeployment->message }}}</dd>
 	</div>
 	@endif
 </dl>
@@ -65,32 +65,25 @@
 		</tr>
 	</thead>
 	<tbody>
+		@foreach ($project->deployments as $deployment)
 		<tr class="row">
 			<td>
+				@if ($deployment->status)
 				<span class="label success radius column">Success</span>
-			</td>
-			<td>This is the commit message</td>
-			<td>11/11/2011 11:11:11</td>
-			<td>
-				<a href="">Johnathan Charleston</a>
-			</td>
-			<td class="text-center">
-				<a href="">View</a>
-			</td>
-		</tr>
-		<tr class="row">
-			<td>
+				@else
 				<span class="label alert radius column">Failure</span>
+				@endif
 			</td>
-			<td>This is the commit message</td>
-			<td>11/11/2011 11:11:11</td>
+			<td>{{{ $deployment->message }}}</td>
+			<td>{{ $deployment->created_at->format('d/m/Y H:i:s') }}</td>
 			<td>
-				<a href="">User</a>
+				<a href="{{ $app->path('user.edit', array('user' => $deployment->user->id)) }}">{{{ $deployment->user->first_name }}} {{{ $deployment->user->last_name }}}</a>
 			</td>
 			<td class="text-center">
-				<a href="">View</a>
+				<a href="{{ $app->path('deployment.view', array('deployment' => $deployment->id)) }}">View</a>
 			</td>
 		</tr>
+		@endforeach
 	</tbody>
 </table>
 @else
