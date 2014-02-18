@@ -61,20 +61,11 @@ class Deployment extends \Illuminate\Database\Eloquent\Model
 
         $this->log = $log->getOutput();
 
-        $reset = new Process('git reset --hard FETCH_HEAD');
+        $reset = new Process('git reset --hard ' . $project->remote . '/' . $project->branch);
         $reset->run();
 
         if (!$reset->isSuccessful()) {
             $this->error('Error resetting project to fetched files: ' . $reset->getErrorOutput());
-
-            return false;
-        }
-
-        $clean = new Process('git clean -df');
-        $clean->run();
-
-        if (!$clean->isSuccessful()) {
-            $this->error('Error cleaning project: ' . $clean->getErrorOutput());
 
             return false;
         }
