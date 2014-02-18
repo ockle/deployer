@@ -117,6 +117,12 @@ a:focus {
     }
 }
 
+.label.deployment-status {
+    font-size: 1.25rem;
+    padding: 1rem;
+    margin: 1.25rem 0;
+}
+
 .muted {
     color: $dark-grey;
 }
