@@ -34,7 +34,7 @@ class Deployment extends \Illuminate\Database\Eloquent\Model
 
         // Start deployment
         if (!@chdir($project->directory)) {
-            $this->error('Error changing directory');
+            $this->error('Error changing directory', 'Unable to change to ' . $project->directory);
 
             return false;
         }
@@ -45,7 +45,7 @@ class Deployment extends \Illuminate\Database\Eloquent\Model
         $fetch->run();
 
         if (!$fetch->isSuccessful()) {
-            $this->error('Error fetching remote: ' . $fetch->getErrorOutput());
+            $this->error('Error fetching remote', $fetch->getErrorOutput());
 
             return false;
         }
@@ -54,18 +54,18 @@ class Deployment extends \Illuminate\Database\Eloquent\Model
         $log->run();
 
         if (!$log->isSuccessful()) {
-            $this->error('Error getting log of deployed commits: ' . $log->getErrorOutput());
+            $this->error('Error getting log of deployed commits', $log->getErrorOutput());
 
             return false;
         }
 
-        $this->log = $log->getOutput();
+        $this->details = $log->getOutput();
 
         $reset = new Process('git reset --hard ' . $project->remote . '/' . $project->branch);
         $reset->run();
 
         if (!$reset->isSuccessful()) {
-            $this->error('Error resetting project to fetched files: ' . $reset->getErrorOutput());
+            $this->error('Error resetting project to fetched files', $reset->getErrorOutput());
 
             return false;
         }
@@ -78,7 +78,8 @@ class Deployment extends \Illuminate\Database\Eloquent\Model
 
         // This is still considered a successful deployment, as the files have been changed
         if (!$currentCommit->isSuccessful()) {
-            $this->message = 'Error fetching current commit: ' . $currentCommit->getErrorOutput();
+            $this->message = 'Error fetching current commit';
+            $this->log .= "\n" . $currentCommit->getErrorOutput();
         } else {
             // Deployment successful
             $this->message = $currentCommit->getOutput();
@@ -89,9 +90,10 @@ class Deployment extends \Illuminate\Database\Eloquent\Model
         return true;
     }
 
-    protected function error($message)
+    protected function error($message, $details)
     {
         $this->message = $message;
+        $this->details = $details;
         $this->status = 0;
 
         return $this->save();
