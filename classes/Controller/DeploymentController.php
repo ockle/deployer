@@ -34,7 +34,7 @@ class DeploymentController
         $user = $app['sentry']->getUser();
 
         $deployment = new Deployment;
-        $deployment->trigger = 'manual';
+        $deployment->isBeingTriggeredManually();
 
         $deploymentStatus = $deployment->process($project, $user, $app);
 
@@ -62,7 +62,7 @@ class DeploymentController
         }
 
         // Check that project is set to be automatically triggered to deploy
-        if ($project->trigger != 'automatic') {
+        if ($project->isTriggeredAutomatically()) {
             $app->abort(404, 'Project not set to allow automatic deployment');
         }
 
@@ -91,7 +91,7 @@ class DeploymentController
 
         // OK, all looks good, let's attempt a deployment
         $deployment = new Deployment;
-        $deployment->trigger = 'automatic';
+        $deployment->isBeingTriggeredAutomatically();
 
         if (!$deployment->process($project, $user, $app)) {
             $app->abort(500, 'Deployment failed');

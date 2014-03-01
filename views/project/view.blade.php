@@ -28,7 +28,7 @@
 
 	<div class="small-12 medium-6 columns">
 		<dt>Deployment trigger</dt>
-		<dd><i class="fa {{ ($project->trigger == 'manual') ? 'fa-wrench' : 'fa-cogs' }} round"></i> {{ ucfirst($project->trigger) }}</dd>
+		<dd><i class="fa {{ ($project->isTriggeredManually()) ? 'fa-wrench' : 'fa-cogs' }} round"></i> {{ ($project->isTriggeredManually()) ? 'Manual' : 'Automatic' }}</dd>
 
 		<dt>Directory</dt>
 		<dd>{{{ $project->directory }}}</dd>

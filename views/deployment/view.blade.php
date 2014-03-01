@@ -21,7 +21,7 @@ Deployment details
 	<dd>{{{ $deployment->project->name }}}</dd>
 
 	<dt>Deployed</dt>
-	<dd>{{ ($deployment->trigger == 'manual') ? 'Manually' : 'Automatically' }} at {{ $deployment->created_at->format('d/m/Y H:i:s') }} by <a href="{{ $app->path('user.edit', array('user' => $deployment->user->id)) }}">{{{ $deployment->user->first_name}}} {{{ $deployment->user->last_name }}}</a></dd>
+	<dd>{{ ($deployment->wasTriggeredManually()) ? 'Manually' : 'Automatically' }} at {{ $deployment->created_at->format('d/m/Y H:i:s') }} by <a href="{{ $app->path('user.edit', array('user' => $deployment->user->id)) }}">{{{ $deployment->user->first_name}}} {{{ $deployment->user->last_name }}}</a></dd>
 
 	<dt>Duration</dt>
 	<dd>{{ $deployment->duration }}ms</dd>

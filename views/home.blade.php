@@ -12,7 +12,7 @@ Home
 	@foreach ($deployments as $deployment)
 	<li class="row">
 		<div class="small-2 medium-1 columns" title="{{ ucfirst($deployment->trigger) }} deployment">
-			<i class="fa {{ ($deployment->trigger == 'manual') ? 'fa-wrench' : 'fa-cogs' }} round"></i>
+			<i class="fa {{ ($deployment->wasTriggeredManually()) ? 'fa-wrench' : 'fa-cogs' }} round"></i>
 		</div>
 		<div class="small-7 medium-9 columns">
 			<a href="{{ $app->path('user.edit', array('user' => $deployment->user->id)) }}">{{{ (isset($deployment->user)) ? $deployment->user->first_name : 'Unknown' }}} {{{ (isset($deployment->user)) ? $deployment->user->last_name : 'User' }}}</a> deployed <a href="{{ $app->path('project.view', array('project' => $deployment->project->id)) }}">{{{ $deployment->project->name }}}</a>

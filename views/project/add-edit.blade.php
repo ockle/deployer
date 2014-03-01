@@ -32,9 +32,9 @@
 	<label for="project_branch">Branch</label>
 	<input type="text" name="branch" value="{{{ $app->oldValue('branch') ?: (isset($project->branch) ? $project->branch : '') }}}" id="project_branch">
 
-	<input type="radio" name="trigger" value="manual" id="project_trigger-manual" {{ ($app->oldValue('trigger') == 'manual') ? 'checked' : (((isset($project->trigger) && ($project->trigger == 'manual')) || (!isset($project->trigger))) ? 'checked' : '') }}>
+	<input type="radio" name="trigger" value="manual" id="project_trigger-manual" {{ ($app->oldValue('trigger') == 'manual') ? 'checked' : (((isset($project->trigger) && ($project->isTriggeredManually())) || (!isset($project->trigger))) ? 'checked' : '') }}>
 	<label for="project_trigger-manual">Manual</label>
-	<input type="radio" name="trigger" value="automatic" id="project_trigger-automatic" {{ ($app->oldValue('trigger') == 'automatic') ? 'checked' : ((isset($project->trigger) && ($project->trigger == 'automatic')) ? 'checked' : '') }}>
+	<input type="radio" name="trigger" value="automatic" id="project_trigger-automatic" {{ ($app->oldValue('trigger') == 'automatic') ? 'checked' : ((isset($project->trigger) && ($project->isTriggeredAutomatically())) ? 'checked' : '') }}>
 	<label for="project_trigger-automatic">Automatic</label>
 
 	<label for="project_hook">Deployment hook URL</label>

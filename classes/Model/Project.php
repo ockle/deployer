@@ -39,4 +39,24 @@ class Project extends \Illuminate\Database\Eloquent\Model
     {
         return $this->hasOne('Deployer\Model\Deployment')->successful()->mostRecentFirst()->take(1);
     }
+
+    public function isTriggeredManually()
+    {
+        return $this->trigger == 'manual';
+    }
+
+    public function isTriggeredAutomatically()
+    {
+        return $this->trigger == 'automatic';
+    }
+
+    public function triggerManually()
+    {
+        $this->trigger = 'manual';
+    }
+
+    public function triggerAutomatically()
+    {
+        $this->trigger = 'automatic';
+    }
 }

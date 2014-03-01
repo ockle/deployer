@@ -55,8 +55,17 @@ class ProjectController
             $project->remote = $input['remote'];
             $project->repository = $input['repository'];
             $project->branch = $input['branch'];
-            $project->trigger = $input['trigger'];
             $project->hash = $input['hash'];
+            
+            switch ($input['trigger']) {
+                case 'automatic':
+                    $project->triggerAutomatically();
+                    break;
+                case 'manual':
+                default:
+                    $project->triggerManually();
+                    break;
+            }
 
             $project->save();
 
@@ -96,8 +105,17 @@ class ProjectController
             $project->remote = $input['remote'];
             $project->repository = $input['repository'];
             $project->branch = $input['branch'];
-            $project->trigger = $input['trigger'];
             $project->hash = $input['hash'];
+
+            switch ($input['trigger']) {
+                case 'automatic':
+                    $project->triggerAutomatically();
+                    break;
+                case 'manual':
+                default:
+                    $project->triggerManually();
+                    break;
+            }
 
             $project->save();
 

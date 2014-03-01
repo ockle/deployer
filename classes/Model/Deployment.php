@@ -27,6 +27,26 @@ class Deployment extends \Illuminate\Database\Eloquent\Model
         return $query->where('status', '=', 1);
     }
 
+    public function wasTriggeredManually()
+    {
+        return $this->trigger == 'manual';
+    }
+
+    public function wasTriggeredAutomatically()
+    {
+        return $this->trigger == 'automatic';
+    }
+
+    public function isBeingTriggeredManually()
+    {
+        $this->trigger = 'manual';
+    }
+
+    public function isBeingTriggeredAutomatically()
+    {
+        $this->trigger = 'automatic';
+    }
+
     public function process(Project $project, User $user, Application $app)
     {
         $this->project()->associate($project);
