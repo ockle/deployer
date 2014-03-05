@@ -11,12 +11,12 @@
     "tests"
   ],
   "dependencies": {
-    "foundation": "~5.0.2",
+    "foundation": "~5.1",
     "font-awesome": "~4.0.3"
   },
   "exportsOverride": {
     "jquery": {
-      "/": "jquery.min.js"
+      "/": "dist/jquery.min.js"
     },
     "foundation": {
       "/js": "js/foundation.min.js"
@@ -27,6 +27,18 @@
     },
     "font-awesome": {
       "fonts/": "fonts/"
+    },
+    "lodash": {
+      "/": "no-install"
+    },
+    "fastclick": {
+      "/": "no-install"
+    },
+    "jquery.cookie": {
+      "/": "no-install"
+    },
+    "jquery-placeholder": {
+      "/": "no-install"
     }
   }
 }

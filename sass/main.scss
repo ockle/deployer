@@ -3,9 +3,13 @@
 @import "../bower_components/foundation/scss/normalize";
 
 $rem-base: 16px;
-@import "../bower_components/foundation/scss/foundation/components/functions";
+@import "../bower_components/foundation/scss/foundation/functions";
+
+@import url("http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,700");
 
 $body-font-family: "Open Sans", Arial, sans-serif;
+$header-font-weight: 300;
+$subheader-font-weight: 300;
 $topbar-title-font-size: 1.3rem;
 $topbar-link-font-size: 1rem;
 $topbar-media-query: "only screen and (min-width: 840px)";
@@ -75,7 +79,7 @@ a.warning {
     color: $warning-color;
 
     &:hover {
-        color: darken($warning-color, $button-function-factor);
+        color: scale-color($warning-color, $lightness: $button-function-factor);
     }
 }
 
@@ -83,7 +87,7 @@ a.alert {
     color: $alert-color;
 
     &:hover {
-        color: darken($alert-color, $button-function-factor);
+        color: scale-color($alert-color, $lightness: $button-function-factor);
     }
 }
 
