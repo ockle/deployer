@@ -19,7 +19,7 @@
 					<li class="name">
 						<h1><i class="fa fa-download"></i> Deployer</h1>
 					</li>
-					<li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+					<li class="toggle-topbar menu-icon"><a href="#">Menu</a></li>
 				</ul>
 
 				@if ($app['sentry']->check())
