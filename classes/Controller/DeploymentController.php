@@ -62,7 +62,7 @@ class DeploymentController
         }
 
         // Check that project is set to be automatically triggered to deploy
-        if ($project->isTriggeredAutomatically()) {
+        if (!$project->isTriggeredAutomatically()) {
             $app->abort(404, 'Project not set to allow automatic deployment');
         }
 
