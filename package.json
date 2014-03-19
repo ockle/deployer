@@ -1,6 +1,7 @@
 {
   "name": "deployer",
   "version": "0.1.0",
+  "private": true,
   "devDependencies": {
     "grunt": "~0.4.2",
     "grunt-bower-task": "~0.3.4",

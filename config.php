@@ -1,6 +1,7 @@
 <?php
 
 return array(
+	'timezone' => 'Europe/London',
     'database' => array(
         'database' => 'deployer',
         'username' => 'root',

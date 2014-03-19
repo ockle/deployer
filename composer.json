@@ -1,6 +1,7 @@
 {
 	"name": "ockle/deployer",
 	"description": "Manage Git deployments to your server",
+	"version": "1.0.0",
 	"keywords": ["deployer", "deploy", "deployment", "git"],
 	"license": "MIT",
 	"require": {

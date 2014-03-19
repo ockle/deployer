@@ -3,14 +3,12 @@
 	<head>
 		<title>Deployer - @yield('title')</title>
 
-		<base href="http://php55/deployer/public/"><!-- @TODO: remove this -->
-
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-		<link rel="stylesheet" type="text/css" href="assets/deployer/css/main.css">
+		<link rel="stylesheet" type="text/css" href="{{ $app['request']->getBasePath() }}/assets/deployer/css/main.css">
 
-		<script type="text/javascript" src="assets/modernizr/modernizr.js"></script>
+		<script type="text/javascript" src="{{ $app['request']->getBasePath() }}/assets/modernizr/modernizr.js"></script>
 	</head>
 	<body>
 		<div class="fixed">
@@ -30,11 +28,6 @@
 								<i class="fa fa-user"></i> {{{ $app['sentry']->getUser()->first_name }}} {{{ $app['sentry']->getUser()->last_name }}}
 							</a>
 							<ul class="dropdown">
-								<!-- <li>
-									<a href="{{-- $app->path('account') --}}">
-										<i class="fa fa-book"></i> Account
-									</a>
-								</li> -->
 								<li>
 									<a href="{{ $app->path('logout') }}">
 										<i class="fa fa-power-off"></i> Logout
@@ -70,8 +63,8 @@
 			@yield('content')
 		</div>
 
-		<script src="assets/jquery/jquery.min.js"></script>
-		<script src="assets/foundation/js/foundation.min.js"></script>
+		<script src="{{ $app['request']->getBasePath() }}/assets/jquery/jquery.min.js"></script>
+		<script src="{{ $app['request']->getBasePath() }}/assets/foundation/js/foundation.min.js"></script>
 		<script>
 			$(document).foundation();
 		</script>
