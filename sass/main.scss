@@ -1,12 +1,12 @@
+@charset "UTF-8";
+
+@import url("http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,700");
+
 @import "compass/css3";
 
 @import "../bower_components/foundation/scss/normalize";
 
 $rem-base: 16px;
-@import "../bower_components/foundation/scss/foundation/functions";
-
-@import url("http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,700");
-
 $body-font-family: "Open Sans", Arial, sans-serif;
 $header-font-weight: 300;
 $subheader-font-weight: 300;
@@ -19,7 +19,20 @@ $row-width: 100%;
 $tabs-content-margin-bottom: 0;
 $label-padding: rem-calc(4 8);
 $has-tip-font-weight: normal;
-@import "../bower_components/foundation/scss/foundation";
+@import 
+    "../bower_components/foundation/scss/foundation/components/grid",
+    "../bower_components/foundation/scss/foundation/components/alert-boxes",
+    "../bower_components/foundation/scss/foundation/components/button-groups",
+    "../bower_components/foundation/scss/foundation/components/buttons",
+    "../bower_components/foundation/scss/foundation/components/forms",
+    "../bower_components/foundation/scss/foundation/components/labels",
+    "../bower_components/foundation/scss/foundation/components/pagination",
+    "../bower_components/foundation/scss/foundation/components/panels",
+    "../bower_components/foundation/scss/foundation/components/tables",
+    "../bower_components/foundation/scss/foundation/components/tabs",
+    "../bower_components/foundation/scss/foundation/components/tooltips",
+    "../bower_components/foundation/scss/foundation/components/top-bar",
+    "../bower_components/foundation/scss/foundation/components/type";
 
 $fa-font-path: "../../font-awesome/fonts";
 @import "../bower_components/font-awesome/scss/font-awesome";
