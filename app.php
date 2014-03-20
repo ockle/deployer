@@ -233,4 +233,11 @@ $app->post('/deployment/automatic/{hash}', 'Deployer\Controller\DeploymentContro
     ->assert('hash', '[a-f0-9]{32}')
     ->bind('deployment.automatic');
 
+/**
+ * Error handler
+ */
+$app->error(function(\Exception $e, $code) use ($app) {
+    return new Symfony\Component\HttpFoundation\Response($app['blade']->make('error.' . $code));
+});
+
 $app->run();
